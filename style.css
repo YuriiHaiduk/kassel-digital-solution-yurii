@@ -283,10 +283,10 @@ section{padding:100px 0;position:relative;}
 }
 
 /* Автоскрытие стрелок и точек, если элементов <= 3 */
-.slider:has(.slider-viewport > :nth-child(4)) .slider-arrow,
-.slider:has(.slider-viewport > :nth-child(4)) .slider-dots{display:flex;}
-.slider:not(:has(.slider-viewport > :nth-child(4))) .slider-arrow,
-.slider:not(:has(.slider-viewport > :nth-child(4))) .slider-dots{display:none;}
+/*.slider:has(.slider-viewport > :nth-child(4)) .slider-arrow,*/
+/*.slider:has(.slider-viewport > :nth-child(4)) .slider-dots{display:flex;}*/
+/*.slider:not(:has(.slider-viewport > :nth-child(4))) .slider-arrow,*/
+/*.slider:not(:has(.slider-viewport > :nth-child(4))) .slider-dots{display:none;}*/
 
 .slider-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
