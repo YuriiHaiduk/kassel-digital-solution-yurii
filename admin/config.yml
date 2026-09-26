@@ -5,7 +5,6 @@ backend:
   base_url: https://kassel-digital-solution-yurii.vercel.app/
   auth_endpoint: api/auth
 
-
 media_folder: "images"
 public_folder: "/images"
 
@@ -14,72 +13,73 @@ locale: de
 collections:
   # ============ ОБЩИЕ ТЕКСТЫ ============
   - name: "settings"
-    label: "🌐 Общие тексты"
+    label: "Общие тексты"
     files:
       - file: "site-data.json"
         label: "Тексты сайта (DE / EN)"
         name: "site"
         fields:
           # --- HERO ---
-          - { label: "🇩🇪 Hero — заголовок", name: "hero_title_de", widget: "string" }
-          - { label: "🇬🇧 Hero — title",    name: "hero_title_en", widget: "string" }
-          - { label: "🇩🇪 Hero — подзаголовок", name: "hero_sub_de", widget: "text" }
-          - { label: "🇬🇧 Hero — subtitle",    name: "hero_sub_en", widget: "text" }
+          - { label: "DE | Hero — заголовок", name: "hero_title_de", widget: "string" }
+          - { label: "EN | Hero — title",     name: "hero_title_en", widget: "string" }
+          - { label: "DE | Hero — подзаголовок", name: "hero_sub_de", widget: "text" }
+          - { label: "EN | Hero — subtitle",    name: "hero_sub_en", widget: "text" }
 
           # --- О НАС ---
-          - { label: "🇩🇪 О нас — заголовок", name: "about_title_de", widget: "string" }
-          - { label: "🇬🇧 About — title",    name: "about_title_en", widget: "string" }
-          - { label: "🇩🇪 О нас — текст",    name: "about_text_de", widget: "text" }
-          - { label: "🇬🇧 About — text",     name: "about_text_en", widget: "text" }
+          - { label: "DE | О нас — заголовок", name: "about_title_de", widget: "string" }
+          - { label: "EN | About — title",    name: "about_title_en", widget: "string" }
+          - { label: "DE | О нас — текст",    name: "about_text_de", widget: "text" }
+          - { label: "EN | About — text",     name: "about_text_en", widget: "text" }
 
           # --- КОНТАКТЫ ---
           - { label: "Телефон", name: "phone", widget: "string" }
           - { label: "Email",   name: "email", widget: "string" }
           - { label: "Адрес",   name: "address", widget: "string" }
-          - # --- CTA BANNER ---
-            - { label: "DE | CTA — заголовок", name: "cta_title_de", widget: "string" }
-            - { label: "EN | CTA — title",     name: "cta_title_en", widget: "string" }
-            - { label: "DE | CTA — подзаголовок", name: "cta_sub_de", widget: "text" }
-            - { label: "EN | CTA — subtitle",    name: "cta_sub_en", widget: "text" }
 
-            # --- ПРОЦЕСС ---
-            - label: "Процесс (4 шага)"
-              name: "process"
-              widget: "list"
-              fields:
-                - { label: "DE | Название", name: "title_de", widget: "string" }
-                - { label: "EN | Title",    name: "title_en", widget: "string" }
-                - { label: "DE | Описание", name: "desc_de", widget: "text" }
-                - { label: "EN | Description", name: "desc_en", widget: "text" }
+          # --- CTA BANNER ---
+          - { label: "DE | CTA — заголовок", name: "cta_title_de", widget: "string" }
+          - { label: "EN | CTA — title",     name: "cta_title_en", widget: "string" }
+          - { label: "DE | CTA — подзаголовок", name: "cta_sub_de", widget: "text" }
+          - { label: "EN | CTA — subtitle",    name: "cta_sub_en", widget: "text" }
 
-            # --- FAQ ---
-            - label: "FAQ"
-              name: "faq"
-              widget: "list"
-              fields:
-                - { label: "DE | Вопрос", name: "q_de", widget: "string" }
-                - { label: "EN | Question", name: "q_en", widget: "string" }
-                - { label: "DE | Ответ", name: "a_de", widget: "text" }
-                - { label: "EN | Answer", name: "a_en", widget: "text" }
+          # --- ПРОЦЕСС ---
+          - label: "Процесс (4 шага)"
+            name: "process"
+            widget: "list"
+            fields:
+              - { label: "DE | Название", name: "title_de", widget: "string" }
+              - { label: "EN | Title",    name: "title_en", widget: "string" }
+              - { label: "DE | Описание", name: "desc_de", widget: "text" }
+              - { label: "EN | Description", name: "desc_en", widget: "text" }
+
+          # --- FAQ ---
+          - label: "FAQ"
+            name: "faq"
+            widget: "list"
+            fields:
+              - { label: "DE | Вопрос", name: "q_de", widget: "string" }
+              - { label: "EN | Question", name: "q_en", widget: "string" }
+              - { label: "DE | Ответ", name: "a_de", widget: "text" }
+              - { label: "EN | Answer", name: "a_en", widget: "text" }
 
   # ============ УСЛУГИ ============
   - name: "services"
-    label: "🛠 Услуги"
+    label: "Услуги"
     folder: "content/services"
     identifier_field: "title_de"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Иконка (эмодзи или текст)", name: "icon", widget: "string", default: "✦" }
-      - { label: "🇩🇪 Название", name: "title_de", widget: "string" }
-      - { label: "🇬🇧 Title",    name: "title_en", widget: "string" }
-      - { label: "🇩🇪 Описание", name: "desc_de", widget: "text" }
-      - { label: "🇬🇧 Description", name: "desc_en", widget: "text" }
+      - { label: "Иконка (эмодзи)", name: "icon", widget: "string", default: "✦" }
+      - { label: "DE | Название", name: "title_de", widget: "string" }
+      - { label: "EN | Title",    name: "title_en", widget: "string" }
+      - { label: "DE | Описание", name: "desc_de", widget: "text" }
+      - { label: "EN | Description", name: "desc_en", widget: "text" }
       - { label: "Порядок (число)", name: "order", widget: "number", default: 0 }
 
   # ============ ГАЛЕРЕЯ ============
   - name: "gallery"
-    label: "🖼 Галерея работ"
+    label: "Галерея работ"
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
@@ -91,7 +91,7 @@ collections:
 
   # ============ ОТЗЫВЫ ============
   - name: "testimonials"
-    label: "💬 Отзывы"
+    label: "Отзывы"
     folder: "content/testimonials"
     create: true
     slug: "{{slug}}"
