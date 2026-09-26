@@ -8,21 +8,55 @@ const GITHUB_REPO = 'kassel-digital-solution-yurii';
 const GITHUB_BRANCH = 'main';
 
 /* ===== ПАРСЕР YAML FRONTMATTER ===== */
+/* ===== ПАРСЕР YAML FRONTMATTER ===== */
 function parseFrontmatter(text) {
-  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+  // Убираем \r (Windows) и находим блок между первыми двумя ---
+  const normalized = text.replace(/\r\n/g, '\n');
+  const match = normalized.match(/^---\s*\n([\s\S]*?)\n---/);
   if (!match) return {};
+
   const data = {};
-  match[1].split('\n').forEach(line => {
-    const idx = line.indexOf(':');
-    if (idx === -1) return;
-    const key = line.slice(0, idx).trim();
-    let value = line.slice(idx + 1).trim();
-    if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
-    if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
-    if (/^\d+$/.test(value)) value = Number(value);
-    data[key] = value;
-  });
+  const lines = match[1].split('\n');
+  let currentKey = null;
+  let currentValue = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Новая пара key: value (не начинается с пробела)
+    const keyMatch = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/);
+    if (keyMatch) {
+      // Сохраняем предыдущую пару
+      if (currentKey !== null) {
+        data[currentKey] = cleanValue(currentValue);
+      }
+      currentKey = keyMatch[1];
+      currentValue = keyMatch[2];
+    } else if (currentKey !== null) {
+      // Продолжение многострочного значения
+      currentValue += '\n' + line;
+    }
+  }
+
+  // Сохраняем последнюю пару
+  if (currentKey !== null) {
+    data[currentKey] = cleanValue(currentValue);
+  }
+
   return data;
+}
+
+function cleanValue(value) {
+  if (value === null || value === undefined) return '';
+  let v = String(value).trim();
+  // Убираем кавычки, если есть
+  if ((v.startsWith('"') && v.endsWith('"')) ||
+      (v.startsWith("'") && v.endsWith("'"))) {
+    v = v.slice(1, -1);
+  }
+  // Преобразуем в число, если это чистое число
+  if (/^-?\d+$/.test(v)) return Number(v);
+  return v;
 }
 
 /* ===== ЧТЕНИЕ ФАЙЛОВ ИЗ ПАПКИ ===== */
