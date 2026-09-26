@@ -326,12 +326,7 @@ section{padding:100px 0;position:relative;}
   transition:transform 0.6s;
 }
 .gallery-item:hover img{transform:scale(1.05);}
-.gallery-caption{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:16px;
-  background:linear-gradient(transparent,rgba(0,0,0,0.85));
-  font-size:0.9rem;font-weight:500;
-}
+
 
 /* ===== ABOUT ===== */
 .about{background:var(--bg-alt);}
