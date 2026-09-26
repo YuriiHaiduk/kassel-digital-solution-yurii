@@ -760,9 +760,46 @@ footer{
   .stats{grid-template-columns:1fr;}
   .btn-large{width:100%;padding:16px 24px;font-size:0.98rem;}
 
-  .cta-banner-inner{flex-direction:column;text-align:center;gap:20px;}
-  .cta-banner h2{font-size:1.4rem;}
-  .cta-banner p{font-size:0.92rem;}
+  /* ===== CTA BANNER (v2) ===== */
+  .cta-banner{
+    padding:64px 0;
+    background:
+            radial-gradient(circle at 20% 50%,rgba(124,58,237,0.22),transparent 60%),
+            radial-gradient(circle at 80% 50%,rgba(59,130,246,0.22),transparent 60%),
+            var(--bg);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .cta-banner-inner{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:48px;
+    align-items:center;
+  }
+  .cta-banner-text{max-width:640px;}
+  .cta-banner .eyebrow{margin-bottom:12px;}
+  .cta-banner h2{
+    font-size:clamp(1.6rem,3vw,2.2rem);
+    margin-bottom:10px;
+    line-height:1.2;
+  }
+  .cta-banner p{
+    color:var(--text-dim);
+    font-size:1rem;
+    line-height:1.5;
+    margin:0;
+  }
+
+  /* На мобиле — в столбик */
+  @media (max-width:700px){
+    .cta-banner-inner{
+      grid-template-columns:1fr;
+      gap:24px;
+      text-align:center;
+    }
+    .cta-banner-text{max-width:100%;}
+    .cta-banner .btn-large{width:100%;}
+  }
 
   .faq-question{padding:16px 18px;font-size:0.95rem;}
   .faq-answer > p{padding:0 18px;font-size:0.9rem;}
@@ -795,9 +832,8 @@ footer{
   }
 }
 
-/* ===== CTA BANNER v2 ===== */
-.cta-banner-text{max-width:640px;}
-.cta-banner .eyebrow{margin-bottom:10px;}
+
+
 
 /* ===== CONTACT CARDS ===== */
 .contact-card-title{
