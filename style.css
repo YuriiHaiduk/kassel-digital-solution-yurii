@@ -838,6 +838,33 @@ footer{
 .mobile-menu a:hover{color:var(--violet);}
 .mobile-lang{margin-top:24px;align-self:flex-start;}
 
+/* ===== КНОПКА ЗАКРЫТИЯ В МОБИЛЬНОМ МЕНЮ ===== */
+.mobile-close{
+    position:absolute;
+    top:24px;right:24px;
+    width:44px;height:44px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background 0.2s,border-color 0.2s,transform 0.2s;
+    z-index:10;
+}
+.mobile-close:hover{
+    background:rgba(124,58,237,0.15);
+    border-color:var(--violet);
+    transform:rotate(90deg);
+}
+.mobile-close span{
+    position:absolute;
+    width:18px;height:2px;
+    background:var(--text);
+    border-radius:2px;
+}
+.mobile-close span:nth-child(1){transform:rotate(45deg);}
+.mobile-close span:nth-child(2){transform:rotate(-45deg);}
+
 @media (max-width:900px){
     .desktop-nav{display:none;}
     .burger{display:flex;}
