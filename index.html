@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -399,6 +399,22 @@
 </footer>
 
 <button class="back-to-top" id="back-to-top" aria-label="Nach oben">↑</button>
+<!-- ===== PROJECT MODAL ===== -->
+<div class="project-modal" id="project-modal">
+  <div class="project-modal-inner">
+    <button class="project-modal-close" id="project-modal-close" aria-label="Schließen">×</button>
+    <div class="project-modal-image">
+      <img id="project-modal-img" src="" alt="">
+    </div>
+    <div class="project-modal-body">
+      <h3 id="project-modal-title"></h3>
+      <p id="project-modal-desc"></p>
+      <a id="project-modal-link" class="project-modal-link" href="#" target="_blank" rel="noopener" hidden>
+        <span data-i18n="modal_visit">Website ansehen</span> →
+      </a>
+    </div>
+  </div>
+</div>
 <script src="script.js" defer></script>
 
 </body>

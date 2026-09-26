@@ -161,6 +161,7 @@ const i18n = {
     footer_social: "Folgen Sie uns",
     footer_rights: "Alle Rechte vorbehalten.",
     footer_privacy: "Impressum", footer_terms: "Datenschutz",
+    modal_visit: "Website ansehen",
   },
   en: {
     nav_services: "Services", nav_process: "Process", nav_gallery: "Work",
@@ -207,6 +208,7 @@ const i18n = {
     footer_social: "Follow us",
     footer_rights: "All rights reserved.",
     footer_privacy: "Imprint", footer_terms: "Privacy",
+    modal_visit: "Visit website",
   }
 };
 
@@ -724,10 +726,72 @@ if (cursor && cursorDot && !isTouchDevice) {
   });
 }
 
+
+/* ============================================
+   PROJECT MODAL — модальное окно проекта
+   ============================================ */
+function initProjectModal() {
+  const modal = document.getElementById('project-modal');
+  const modalImg = document.getElementById('project-modal-img');
+  const modalTitle = document.getElementById('project-modal-title');
+  const modalDesc = document.getElementById('project-modal-desc');
+  const modalLink = document.getElementById('project-modal-link');
+  const modalClose = document.getElementById('project-modal-close');
+
+  if (!modal || !modalImg || !modalTitle || !modalDesc) return;
+
+  function openModal(project) {
+    modalImg.src = project.image || '';
+    modalImg.alt = project[`caption_${currentLang}`] || '';
+    modalTitle.textContent = project[`caption_${currentLang}`] || '';
+    modalDesc.textContent = project[`desc_${currentLang}`] || '';
+
+    if (project.url) {
+      modalLink.href = project.url;
+      modalLink.hidden = false;
+    } else {
+      modalLink.hidden = true;
+    }
+
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+
+  // Открытие: клик по карточке галереи
+  document.addEventListener('click', (e) => {
+    const item = e.target.closest('.gallery-item');
+    if (item && data.gallery) {
+      // Находим индекс карточки среди элементов галереи
+      const allItems = Array.from(document.querySelectorAll('#gallery-track > .gallery-item'));
+      const index = allItems.indexOf(item);
+      // Берём данные из data.gallery по индексу (с учётом клонов слайдера — берём по модулю)
+      if (index >= 0 && data.gallery.length > 0) {
+        const realIndex = index % data.gallery.length;
+        openModal(data.gallery[realIndex]);
+      }
+    }
+  });
+
+  // Закрытие
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+}
+
 /* ===== СТАРТ ===== */
 loadData().then(d => {
   data = d;
   render();
   observeFadeUps();
   initLightbox();
+  initProjectModal();
 });

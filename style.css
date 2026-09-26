@@ -118,7 +118,7 @@ section{padding:100px 0;position:relative;}
 .slider-dot.active{background:var(--violet);width:24px;border-radius:4px;}
 
 /* ===== GALLERY ===== */
-.gallery-item{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1),border-color 0.4s,box-shadow 0.4s;height:100%;}
+.gallery-item{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1),border-color 0.4s,box-shadow 0.4s;}
 .gallery-item:hover{transform:translateY(-8px);border-color:rgba(124,58,237,0.6);box-shadow:0 24px 60px rgba(124,58,237,0.22);}
 .gallery-image{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg);flex-shrink:0;}
 .gallery-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);display:block;}
@@ -373,3 +373,127 @@ body.cursor-hover .custom-cursor{width:56px;height:56px;background:rgba(124,58,2
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
 }
+
+/* ============================================
+   PROJECT MODAL — модальное окно проекта
+   ============================================ */
+.project-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(5,5,10,0.85);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  padding:40px;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+.project-modal.open{
+  display:flex;
+  opacity:1;
+}
+
+.project-modal-inner{
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  max-width:900px;
+  width:100%;
+  max-height:90vh;
+  overflow-y:auto;
+  transform:translateY(30px) scale(0.98);
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+.project-modal.open .project-modal-inner{
+  transform:translateY(0) scale(1);
+}
+
+/* Фото */
+.project-modal-image{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/10;
+  overflow:hidden;
+  background:var(--bg);
+  border-radius:20px 20px 0 0;
+}
+.project-modal-image img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+}
+
+/* Кнопка закрытия */
+.project-modal-close{
+  position:absolute;
+  top:16px;right:16px;
+  width:44px;height:44px;
+  background:rgba(10,10,15,0.85);
+  backdrop-filter:blur(6px);
+  border:1px solid var(--line);
+  border-radius:50%;
+  color:var(--text);
+  font-size:1.4rem;
+  line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:5;
+  transition:background 0.2s,transform 0.2s;
+}
+.project-modal-close:hover{
+  background:var(--violet);
+  transform:rotate(90deg);
+}
+
+/* Текстовая часть */
+.project-modal-body{
+  padding:36px 40px 40px;
+}
+.project-modal-body h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.5rem,2.5vw,2rem);
+  margin-bottom:16px;
+  line-height:1.2;
+}
+.project-modal-body p{
+  color:var(--text-dim);
+  font-size:1rem;
+  line-height:1.7;
+  margin-bottom:28px;
+  white-space:pre-line;   /* сохраняем переносы строк из админки */
+}
+.project-modal-link{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 28px;
+  background:var(--gradient);
+  color:#fff;
+  border-radius:12px;
+  font-weight:600;
+  font-size:0.98rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.project-modal-link:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(124,58,237,0.4);
+}
+.project-modal-link[hidden]{display:none;}
+
+/* На мобиле */
+@media (max-width:600px){
+  .project-modal{padding:16px;}
+  .project-modal-inner{max-height:95vh;}
+  .project-modal-image{aspect-ratio:4/3;}
+  .project-modal-body{padding:24px 24px 28px;}
+  .project-modal-body h3{font-size:1.3rem;}
+  .project-modal-body p{font-size:0.95rem;}
+  .project-modal-close{width:38px;height:38px;font-size:1.2rem;top:12px;right:12px;}
+}
+
+/* Запрет скролла body при открытой модалке */
+body.modal-open{overflow:hidden;}
