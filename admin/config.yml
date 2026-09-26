@@ -11,94 +11,96 @@ public_folder: "/images"
 locale: de
 
 collections:
-  # ============ ОБЩИЕ ТЕКСТЫ ============
+  # ============ ALLGEMEINE TEXTE ============
   - name: "settings"
-    label: "Общие тексты"
+    label: "Allgemeine Texte"
     files:
       - file: "site-data.json"
-        label: "Тексты сайта (DE / EN)"
+        label: "Website-Texte (DE / EN)"
         name: "site"
         fields:
           # --- HERO ---
-          - { label: "DE | Hero — заголовок", name: "hero_title_de", widget: "string" }
-          - { label: "EN | Hero — title",     name: "hero_title_en", widget: "string" }
-          - { label: "DE | Hero — подзаголовок", name: "hero_sub_de", widget: "text" }
-          - { label: "EN | Hero — subtitle",    name: "hero_sub_en", widget: "text" }
+          - { label: "DE | Hero — Überschrift", name: "hero_title_de", widget: "string" }
+          - { label: "EN | Hero — title",        name: "hero_title_en", widget: "string" }
+          - { label: "DE | Hero — Untertitel",   name: "hero_sub_de", widget: "text" }
+          - { label: "EN | Hero — subtitle",     name: "hero_sub_en", widget: "text" }
 
-          # --- О НАС ---
-          - { label: "DE | О нас — заголовок", name: "about_title_de", widget: "string" }
-          - { label: "EN | About — title",    name: "about_title_en", widget: "string" }
-          - { label: "DE | О нас — текст",    name: "about_text_de", widget: "text" }
-          - { label: "EN | About — text",     name: "about_text_en", widget: "text" }
+          # --- ÜBER UNS ---
+          - { label: "DE | Über uns — Überschrift", name: "about_title_de", widget: "string" }
+          - { label: "EN | About — title",           name: "about_title_en", widget: "string" }
+          - { label: "DE | Über uns — Text",         name: "about_text_de", widget: "text" }
+          - { label: "EN | About — text",            name: "about_text_en", widget: "text" }
 
-          # --- КОНТАКТЫ ---
-          - { label: "Телефон", name: "phone", widget: "string" }
-          - { label: "Email",   name: "email", widget: "string" }
-          - { label: "Адрес",   name: "address", widget: "string" }
+          # --- KONTAKT ---
+          - { label: "Telefon", name: "phone",   widget: "string" }
+          - { label: "E-Mail",  name: "email",   widget: "string" }
+          - { label: "Adresse", name: "address", widget: "string" }
 
-          # --- CTA BANNER ---
-          - { label: "DE | CTA — заголовок", name: "cta_title_de", widget: "string" }
-          - { label: "EN | CTA — title",     name: "cta_title_en", widget: "string" }
-          - { label: "DE | CTA — подзаголовок", name: "cta_sub_de", widget: "text" }
-          - { label: "EN | CTA — subtitle",    name: "cta_sub_en", widget: "text" }
+          # --- CTA-BANNER ---
+          - { label: "DE | CTA — Überschrift", name: "cta_title_de", widget: "string" }
+          - { label: "EN | CTA — title",        name: "cta_title_en", widget: "string" }
+          - { label: "DE | CTA — Untertitel",   name: "cta_sub_de", widget: "text" }
+          - { label: "EN | CTA — subtitle",     name: "cta_sub_en", widget: "text" }
 
-          # --- ПРОЦЕСС ---
-          - label: "Процесс (4 шага)"
+          # --- PROZESS ---
+          - label: "Prozess (4 Schritte)"
             name: "process"
             widget: "list"
             fields:
-              - { label: "DE | Название", name: "title_de", widget: "string" }
-              - { label: "EN | Title",    name: "title_en", widget: "string" }
-              - { label: "DE | Описание", name: "desc_de", widget: "text" }
-              - { label: "EN | Description", name: "desc_en", widget: "text" }
+              - { label: "DE | Titel",       name: "title_de", widget: "string" }
+              - { label: "EN | Title",        name: "title_en", widget: "string" }
+              - { label: "DE | Beschreibung", name: "desc_de", widget: "text" }
+              - { label: "EN | Description",  name: "desc_en", widget: "text" }
 
           # --- FAQ ---
           - label: "FAQ"
             name: "faq"
             widget: "list"
             fields:
-              - { label: "DE | Вопрос", name: "q_de", widget: "string" }
+              - { label: "DE | Frage",  name: "q_de", widget: "string" }
               - { label: "EN | Question", name: "q_en", widget: "string" }
-              - { label: "DE | Ответ", name: "a_de", widget: "text" }
-              - { label: "EN | Answer", name: "a_en", widget: "text" }
+              - { label: "DE | Antwort", name: "a_de", widget: "text" }
+              - { label: "EN | Answer",  name: "a_en", widget: "text" }
 
-  # ============ УСЛУГИ ============
+  # ============ LEISTUNGEN ============
   - name: "services"
-    label: "Услуги"
+    label: "Leistungen"
     folder: "content/services"
     identifier_field: "title_de"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Иконка (эмодзи)", name: "icon", widget: "string", default: "✦" }
-      - { label: "DE | Название", name: "title_de", widget: "string" }
-      - { label: "EN | Title",    name: "title_en", widget: "string" }
-      - { label: "DE | Описание", name: "desc_de", widget: "text" }
-      - { label: "EN | Description", name: "desc_en", widget: "text" }
-      - { label: "Порядок (число)", name: "order", widget: "number", default: 0 }
+      - { label: "Icon (Emoji)", name: "icon", widget: "string", default: "✦" }
+      - { label: "DE | Titel",        name: "title_de", widget: "string" }
+      - { label: "EN | Title",         name: "title_en", widget: "string" }
+      - { label: "DE | Beschreibung",  name: "desc_de", widget: "text" }
+      - { label: "EN | Description",   name: "desc_en", widget: "text" }
+      - { label: "Reihenfolge (Zahl)", name: "order", widget: "number", default: 0 }
 
-  # ============ ГАЛЕРЕЯ ============
+  # ============ GALERIE ============
   - name: "gallery"
-    label: "Галерея работ"
+    label: "Galerie"
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
     identifier_field: "caption_de"
     fields:
-      - { label: "Изображение", name: "image", widget: "image" }
-      - { label: "Подпись (DE)", name: "caption_de", widget: "string", required: false }
-      - { label: "Caption (EN)", name: "caption_en", widget: "string", required: false }
+      - { label: "Bild",              name: "image",      widget: "image" }
+      - { label: "DE | Überschrift",  name: "caption_de", widget: "string" }
+      - { label: "EN | Title",         name: "caption_en", widget: "string" }
+      - { label: "DE | Beschreibung",  name: "desc_de",    widget: "text", required: false }
+      - { label: "EN | Description",   name: "desc_en",    widget: "text", required: false }
 
-  # ============ ОТЗЫВЫ ============
+  # ============ BEWERTUNGEN ============
   - name: "testimonials"
-    label: "Отзывы"
+    label: "Bewertungen"
     folder: "content/testimonials"
     create: true
     slug: "{{slug}}"
     identifier_field: "name"
     fields:
-      - { label: "Имя клиента", name: "name", widget: "string" }
-      - { label: "Компания (опционально)", name: "company", widget: "string", required: false }
-      - { label: "Текст отзыва (DE)", name: "text_de", widget: "text" }
-      - { label: "Text (EN)",         name: "text_en", widget: "text" }
-      - { label: "Фото (опционально)", name: "avatar", widget: "image", required: false }
+      - { label: "Kundenname",          name: "name",    widget: "string" }
+      - { label: "Firma (optional)",     name: "company", widget: "string", required: false }
+      - { label: "DE | Bewertungstext",  name: "text_de", widget: "text" }
+      - { label: "EN | Review text",     name: "text_en", widget: "text" }
+      - { label: "Foto (optional)",      name: "avatar",  widget: "image", required: false }

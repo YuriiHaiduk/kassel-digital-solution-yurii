@@ -1072,3 +1072,313 @@ body.cursor-hover .custom-cursor{
   transition:width 0.2s,height 0.2s,background 0.2s,border-color 0.2s,opacity 0.2s !important;
   will-change:transform;
 }
+
+/* ============================================
+   ЭТАП 4 — УЛУЧШЕНИЯ UX
+   ============================================ */
+
+/* ===== FAQ: hover + красивый вид ===== */
+.faq-item{
+  position:relative;
+  overflow:hidden;
+}
+.faq-item::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:3px;height:100%;
+  background:var(--gradient);
+  transform:scaleY(0);
+  transform-origin:top;
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.faq-item:hover::before,
+.faq-item.open::before{transform:scaleY(1);}
+
+.faq-item:hover{
+  background:rgba(124,58,237,0.04);
+}
+
+.faq-question{
+  position:relative;
+  transition:padding-left 0.3s;
+}
+.faq-item:hover .faq-question,
+.faq-item.open .faq-question{
+  padding-left:32px;
+}
+
+.faq-question::after{
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),color 0.3s;
+}
+.faq-item:hover .faq-question::after{
+  color:var(--blue);
+  transform:scale(1.15);
+}
+
+/* ===== GALLERY: карточки с описанием и hover-эффектом ===== */
+.gallery-item{
+  position:relative;
+  aspect-ratio:4/3;
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--line);
+  cursor:pointer;
+  transition:transform 0.5s cubic-bezier(0.22,1,0.36,1),border-color 0.4s;
+}
+.gallery-item:hover{
+  transform:translateY(-6px);
+  border-color:rgba(124,58,237,0.5);
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.gallery-item:hover img{transform:scale(1.08);}
+
+/* Затемнение поверх картинки при hover */
+.gallery-item::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+          180deg,
+          rgba(10,10,15,0) 0%,
+          rgba(10,10,15,0.4) 50%,
+          rgba(10,10,15,0.95) 100%
+  );
+  opacity:0.5;
+  transition:opacity 0.4s;
+  z-index:1;
+  pointer-events:none;
+}
+.gallery-item:hover::before{opacity:1;}
+
+.gallery-caption{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  padding:24px;
+  z-index:2;
+  transform:translateY(0);
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.gallery-caption h4{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.15rem;
+  font-weight:600;
+  margin-bottom:6px;
+  color:#fff;
+}
+.gallery-caption p{
+  color:rgba(255,255,255,0.75);
+  font-size:0.88rem;
+  margin:0;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.4s cubic-bezier(0.22,1,0.36,1),opacity 0.4s;
+  opacity:0;
+}
+.gallery-item:hover .gallery-caption p{
+  max-height:80px;
+  opacity:1;
+}
+
+/* Кнопка "смотреть" при hover */
+.gallery-caption .gallery-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:12px;
+  color:var(--violet);
+  font-size:0.85rem;
+  font-weight:600;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity 0.4s,transform 0.4s;
+}
+.gallery-item:hover .gallery-caption .gallery-link{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Значок "+" в правом верхнем углу */
+.gallery-item::after{
+  content:'+';
+  position:absolute;
+  top:16px;right:16px;
+  width:36px;height:36px;
+  background:var(--gradient);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:1.4rem;font-weight:300;line-height:1;
+  opacity:0;
+  transform:scale(0.5) rotate(-90deg);
+  transition:opacity 0.4s,transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  z-index:3;
+  pointer-events:none;
+}
+.gallery-item:hover::after{
+  opacity:1;
+  transform:scale(1) rotate(0);
+}
+
+/* ===== CONTACT FORM: hover / focus ===== */
+.contact-form-card{
+  position:relative;
+  overflow:hidden;
+}
+.contact-form-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--gradient);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.contact-form-card:hover::before{transform:scaleX(1);}
+
+.contact-form-card input,
+.contact-form-card textarea{
+  transition:border-color 0.3s,background 0.3s,transform 0.2s,box-shadow 0.3s;
+}
+.contact-form-card input:hover,
+.contact-form-card textarea:hover{
+  border-color:rgba(124,58,237,0.3);
+}
+.contact-form-card input:focus,
+.contact-form-card textarea:focus{
+  border-color:var(--violet);
+  background:rgba(124,58,237,0.06);
+  box-shadow:0 0 0 3px rgba(124,58,237,0.12);
+}
+
+.contact-form-card .btn[type="submit"]{
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.contact-form-card .btn[type="submit"]::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#3b82f6 0%,#7c3aed 100%);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.contact-form-card .btn[type="submit"]:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(124,58,237,0.5);
+}
+.contact-form-card .btn[type="submit"]:hover::before{opacity:1;}
+.contact-form-card .btn[type="submit"] > *{position:relative;z-index:1;}
+
+/* ===== CONTACT INFO CARD: hover ===== */
+.contact-info-card{
+  position:relative;
+  overflow:hidden;
+}
+.contact-info-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--gradient);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.contact-info-card:hover::before{transform:scaleX(1);}
+
+.contact-item-icon{
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.contact-item:hover .contact-item-icon{
+  transform:scale(1.1) rotate(-5deg);
+  box-shadow:0 8px 24px rgba(124,58,237,0.4);
+}
+
+/* ===== TESTIMONIALS: красивее ===== */
+.testimonial{
+  position:relative;
+  background:linear-gradient(180deg,rgba(22,22,31,1) 0%,rgba(22,22,31,0.6) 100%);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:36px 30px 28px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:240px;height:100%;
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),border-color 0.4s,box-shadow 0.4s;
+  overflow:hidden;
+}
+.testimonial:hover{
+  transform:translateY(-6px);
+  border-color:rgba(124,58,237,0.5);
+  box-shadow:0 20px 48px rgba(124,58,237,0.15);
+}
+
+/* Градиентная полоска сверху */
+.testimonial::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--gradient);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.testimonial:hover::after{transform:scaleX(1);}
+
+/* Большая кавычка */
+.testimonial::before{
+  content:'"';
+  position:absolute;
+  top:10px;right:24px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:6rem;line-height:1;
+  color:rgba(124,58,237,0.12);
+  pointer-events:none;
+  transition:transform 0.4s,color 0.4s;
+}
+.testimonial:hover::before{
+  transform:scale(1.1);
+  color:rgba(124,58,237,0.22);
+}
+
+.testimonial-text{
+  color:var(--text);
+  font-size:0.98rem;
+  line-height:1.65;
+  margin-bottom:28px;
+  position:relative;
+  z-index:1;
+}
+
+.testimonial-author{
+  display:flex;align-items:center;gap:14px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+.testimonial-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--gradient);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:1.05rem;color:#fff;
+  overflow:hidden;flex-shrink:0;
+  transition:transform 0.3s;
+}
+.testimonial:hover .testimonial-avatar{transform:scale(1.08);}
+.testimonial-avatar img{width:100%;height:100%;object-fit:cover;}
+
+.testimonial-name{
+  font-weight:600;
+  font-size:0.95rem;
+  font-family:'Space Grotesk',sans-serif;
+}
+.testimonial-company{
+  color:var(--text-dim);
+  font-size:0.82rem;
+  margin-top:2px;
+}
