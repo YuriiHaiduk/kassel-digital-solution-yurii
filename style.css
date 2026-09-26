@@ -259,24 +259,24 @@ section{padding:100px 0;position:relative;}
 .slider{position:relative;}
 
 .slider-viewport{
-  display:flex;
-  gap:20px;
   overflow-x:auto;
-  scroll-snap-type:x mandatory;
+  scroll-snap-type:x proximity;
   scroll-behavior:smooth;
-  padding:4px 4px 4px 4px;
+  padding:4px;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
 }
 .slider-viewport::-webkit-scrollbar{display:none;}
 
-.slider-track{display:contents;}
+.slider-track{
+  display:flex;
+  gap:20px;
+  align-items:stretch;
+}
 
 /* Элементы слайдера */
 #testimonials-track > *,
-#testimonials-slider .slider-viewport > *,
-#gallery-track > *,
-#gallery-slider .slider-viewport > *{
+#gallery-track > *{
   scroll-snap-align:start;
   flex:0 0 calc((100% - 40px) / 3);
   min-width:0;
@@ -315,6 +315,7 @@ section{padding:100px 0;position:relative;}
 .slider-dot.active{background:var(--violet);width:24px;border-radius:4px;}
 
 /* ===== GALLERY ===== */
+
 .gallery-item{
   position:relative;aspect-ratio:4/3;
   border-radius:var(--radius);overflow:hidden;
@@ -755,9 +756,7 @@ footer{
   section{padding:70px 0;}
 
   #testimonials-track > *,
-  #testimonials-slider .slider-viewport > *,
-  #gallery-track > *,
-  #gallery-slider .slider-viewport > *{
+  #gallery-track > *{
     flex:0 0 calc((100% - 20px) / 2);
   }
 
@@ -827,9 +826,7 @@ footer{
   .map iframe{height:200px;}
 
   #testimonials-track > *,
-  #testimonials-slider .slider-viewport > *,
-  #gallery-track > *,
-  #gallery-slider .slider-viewport > *{
+  #gallery-track > *{
     flex:0 0 100%;
   }
   .slider-arrow{width:36px;height:36px;font-size:1.3rem;}
