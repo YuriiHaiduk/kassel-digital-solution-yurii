@@ -1,0 +1,76 @@
+backend:
+  name: github
+  repo: YuriiHaiduk/AI-TEST
+  branch: main
+  base_url: https://ai-barbershop-yurii.vercel.app
+  auth_endpoint: api/auth
+
+
+media_folder: "images"
+public_folder: "/images"
+
+locale: de
+
+collections:
+  # ============ ОБЩИЕ ТЕКСТЫ ============
+  - name: "settings"
+    label: "🌐 Общие тексты"
+    files:
+      - file: "site-data.json"
+        label: "Тексты сайта (DE / EN)"
+        name: "site"
+        fields:
+          # --- HERO ---
+          - { label: "🇩🇪 Hero — заголовок", name: "hero_title_de", widget: "string" }
+          - { label: "🇬🇧 Hero — title",    name: "hero_title_en", widget: "string" }
+          - { label: "🇩🇪 Hero — подзаголовок", name: "hero_sub_de", widget: "text" }
+          - { label: "🇬🇧 Hero — subtitle",    name: "hero_sub_en", widget: "text" }
+
+          # --- О НАС ---
+          - { label: "🇩🇪 О нас — заголовок", name: "about_title_de", widget: "string" }
+          - { label: "🇬🇧 About — title",    name: "about_title_en", widget: "string" }
+          - { label: "🇩🇪 О нас — текст",    name: "about_text_de", widget: "text" }
+          - { label: "🇬🇧 About — text",     name: "about_text_en", widget: "text" }
+
+          # --- КОНТАКТЫ ---
+          - { label: "Телефон", name: "phone", widget: "string" }
+          - { label: "Email",   name: "email", widget: "string" }
+          - { label: "Адрес",   name: "address", widget: "string" }
+
+  # ============ УСЛУГИ ============
+  - name: "services"
+    label: "🛠 Услуги"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Иконка (эмодзи или текст)", name: "icon", widget: "string", default: "✦" }
+      - { label: "🇩🇪 Название", name: "title_de", widget: "string" }
+      - { label: "🇬🇧 Title",    name: "title_en", widget: "string" }
+      - { label: "🇩🇪 Описание", name: "desc_de", widget: "text" }
+      - { label: "🇬🇧 Description", name: "desc_en", widget: "text" }
+      - { label: "Порядок (число)", name: "order", widget: "number", default: 0 }
+
+  # ============ ГАЛЕРЕЯ ============
+  - name: "gallery"
+    label: "🖼 Галерея работ"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Изображение", name: "image", widget: "image" }
+      - { label: "Подпись (DE)", name: "caption_de", widget: "string", required: false }
+      - { label: "Caption (EN)", name: "caption_en", widget: "string", required: false }
+
+  # ============ ОТЗЫВЫ ============
+  - name: "testimonials"
+    label: "💬 Отзывы"
+    folder: "content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Имя клиента", name: "name", widget: "string" }
+      - { label: "Компания (опционально)", name: "company", widget: "string", required: false }
+      - { label: "Текст отзыва (DE)", name: "text_de", widget: "text" }
+      - { label: "Text (EN)",         name: "text_en", widget: "text" }
+      - { label: "Фото (опционально)", name: "avatar", widget: "image", required: false }
