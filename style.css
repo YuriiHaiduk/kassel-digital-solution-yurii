@@ -869,3 +869,199 @@ footer{
   font-size:0.9rem;
   margin-bottom:8px;
 }
+
+/* ============================================
+   ЭТАП 3 — ВАУ-ФИЧИ
+   ============================================ */
+
+/* ===== 1. КАСТОМНЫЙ КУРСОР (только десктоп) ===== */
+.custom-cursor,
+.custom-cursor-dot{
+  position:fixed;
+  top:0;left:0;
+  pointer-events:none;
+  z-index:99999;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:opacity 0.2s;
+  opacity:0;
+}
+.custom-cursor{
+  width:32px;height:32px;
+  border:1.5px solid var(--violet);
+  transition:width 0.2s,height 0.2s,background 0.2s,border-color 0.2s,transform 0.15s;
+}
+.custom-cursor-dot{
+  width:6px;height:6px;
+  background:var(--violet);
+}
+body:hover .custom-cursor,
+body:hover .custom-cursor-dot{opacity:1;}
+
+/* Когда курсор над ссылкой/кнопкой — круг растёт */
+body.cursor-hover .custom-cursor{
+  width:56px;height:56px;
+  background:rgba(124,58,237,0.15);
+  border-color:var(--blue);
+}
+
+/* На тач-устройствах — отключаем */
+@media (hover: none){
+  .custom-cursor,.custom-cursor-dot{display:none;}
+}
+
+/* ===== 2. СЕКЦИЯ ТЕХНОЛОГИЙ ===== */
+.tech{
+  background:var(--bg);
+  padding:80px 0;
+  overflow:hidden;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.tech-track{
+  display:flex;gap:64px;
+  white-space:nowrap;
+  animation:marquee 40s linear infinite;
+  align-items:center;
+}
+.tech-item{
+  display:flex;align-items:center;gap:12px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.4rem;
+  font-weight:600;
+  color:var(--text-dim);
+  opacity:0.7;
+  transition:opacity 0.3s,color 0.3s;
+  flex-shrink:0;
+}
+.tech-item:hover{opacity:1;color:var(--text);}
+.tech-item svg{width:28px;height:28px;flex-shrink:0;}
+
+/* ===== 3. ПАРАЛЛАКС ФОНОВ (готовые классы) ===== */
+.parallax-layer{
+  position:absolute;
+  pointer-events:none;
+  will-change:transform;
+  z-index:0;
+}
+
+/* ===== 4. SCROLL-REVEAL ДЛЯ ЗАГОЛОВКОВ ===== */
+.reveal-text{
+  display:inline-block;
+  overflow:hidden;
+}
+.reveal-text > span{
+  display:inline-block;
+  transform:translateY(100%);
+  transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-text.visible > span{transform:translateY(0);}
+
+/* ===== 5. СЕКЦИЯ «ПОЧЕМУ МЫ» ===== */
+.why{
+  background:var(--bg-alt);
+  padding:100px 0;
+}
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+.why-card{
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:32px 26px;
+  overflow:hidden;
+  transition:transform 0.35s,border-color 0.35s;
+}
+.why-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:var(--gradient);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.why-card:hover::before{transform:scaleX(1);}
+.why-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(124,58,237,0.5);
+}
+.why-icon{
+  width:52px;height:52px;
+  border-radius:14px;
+  background:rgba(124,58,237,0.12);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+  font-size:1.5rem;
+  transition:background 0.3s;
+}
+.why-card:hover .why-icon{background:var(--gradient);}
+.why-card h3{
+  font-size:1.15rem;
+  margin-bottom:10px;
+}
+.why-card p{
+  color:var(--text-dim);
+  font-size:0.92rem;
+  line-height:1.55;
+}
+
+/* ===== 6. РАСШИРЕННЫЙ FOOTER ===== */
+.footer-extended{
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  padding:64px 0 32px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  margin-bottom:48px;
+}
+.footer-col h4{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1rem;
+  font-weight:600;
+  margin-bottom:20px;
+  color:var(--text);
+}
+.footer-col p{
+  color:var(--text-dim);
+  font-size:0.9rem;
+  line-height:1.6;
+  max-width:32ch;
+}
+.footer-col ul{
+  list-style:none;
+  display:flex;flex-direction:column;
+  gap:10px;
+}
+.footer-col ul a{
+  color:var(--text-dim);
+  font-size:0.9rem;
+  transition:color 0.2s;
+}
+.footer-col ul a:hover{color:var(--violet);}
+.footer-bottom{
+  padding-top:32px;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;
+  gap:16px;
+  color:var(--text-dim);
+  font-size:0.85rem;
+}
+
+@media (max-width:900px){
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px;}
+}
+@media (max-width:600px){
+  .footer-grid{grid-template-columns:1fr;}
+  .tech-track{gap:40px;}
+  .tech-item{font-size:1.1rem;}
+  .why{padding:70px 0;}
+}
