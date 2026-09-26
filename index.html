@@ -15,8 +15,9 @@
 <header>
   <div class="header-inner">
     <div class="logo">Kassel <span>Digital</span> Solutions</div>
-    <nav>
+    <nav class="desktop-nav">
       <a href="#services" data-i18n="nav_services">Leistungen</a>
+      <a href="#process" data-i18n="nav_process">Prozess</a>
       <a href="#gallery" data-i18n="nav_gallery">Arbeiten</a>
       <a href="#about" data-i18n="nav_about">Über uns</a>
       <a href="#testimonials" data-i18n="nav_testimonials">Referenzen</a>
@@ -26,18 +27,56 @@
         <button data-lang="en">EN</button>
       </div>
     </nav>
+    <button class="burger" id="burger" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
+<!-- Мобильное меню -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#services" data-i18n="nav_services">Leistungen</a>
+  <a href="#process" data-i18n="nav_process">Prozess</a>
+  <a href="#gallery" data-i18n="nav_gallery">Arbeiten</a>
+  <a href="#about" data-i18n="nav_about">Über uns</a>
+  <a href="#testimonials" data-i18n="nav_testimonials">Referenzen</a>
+  <a href="#contact" data-i18n="nav_contact">Kontakt</a>
+  <div class="lang-switch mobile-lang">
+    <button data-lang="de" class="active">DE</button>
+    <button data-lang="en">EN</button>
+  </div>
+</div>
+
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <div class="hero-glow" id="hero-glow"></div>
   <div class="wrap hero-inner">
-    <div class="badge" data-i18n="hero_badge">Digitalagentur aus Kassel</div>
-    <h1><span data-i18n="hero_title">Wir bauen Websites, die verkaufen.</span></h1>
-    <p data-i18n="hero_sub">Websites, Werbung und Content für Unternehmen in Kassel und ganz Deutschland.</p>
-    <div class="hero-actions">
+    <div class="badge fade-up" data-i18n="hero_badge">Digitalagentur aus Kassel</div>
+    <h1 class="fade-up delay-1">
+      <span data-i18n="hero_title_1">Wir bauen</span>
+      <em data-i18n="hero_title_2">Websites,</em>
+      <span data-i18n="hero_title_3">die verkaufen.</span>
+    </h1>
+    <p class="fade-up delay-2" data-i18n="hero_sub">Websites, Werbung und Content für Unternehmen in Kassel und ganz Deutschland.</p>
+    <div class="hero-actions fade-up delay-3">
       <a href="#contact" class="btn" data-i18n="hero_cta">Projekt starten →</a>
       <a href="#services" class="btn btn-outline" data-i18n="hero_cta2">Leistungen ansehen</a>
+    </div>
+    <div class="hero-marquee fade-up delay-4">
+      <div class="marquee-track">
+        <span>Webdesign</span><span>•</span>
+        <span>Social Media</span><span>•</span>
+        <span>TikTok Ads</span><span>•</span>
+        <span>Content</span><span>•</span>
+        <span>SEO</span><span>•</span>
+        <span>Branding</span><span>•</span>
+        <span>Webdesign</span><span>•</span>
+        <span>Social Media</span><span>•</span>
+        <span>TikTok Ads</span><span>•</span>
+        <span>Content</span><span>•</span>
+        <span>SEO</span><span>•</span>
+        <span>Branding</span><span>•</span>
+      </div>
     </div>
   </div>
 </section>

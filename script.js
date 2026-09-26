@@ -135,14 +135,19 @@ function render() {
     if (addrEl) addrEl.textContent = s.address || '';
 
     // Услуги
+    // Услуги
     const servicesGrid = document.getElementById('services-grid');
     if (servicesGrid) {
         const services = (data.services || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
         servicesGrid.innerHTML = services.map((sv, i) => `
       <div class="service-card fade-up delay-${(i % 5) + 1}">
-        <div class="service-icon">${sv.icon || '✦'}</div>
+        <div class="service-card-glow"></div>
+        <div class="service-icon-wrap">
+          <div class="service-icon">${sv.icon || '✦'}</div>
+        </div>
         <h3>${sv[`title_${currentLang}`] || ''}</h3>
         <p>${sv[`desc_${currentLang}`] || ''}</p>
+        <div class="service-arrow">→</div>
       </div>
     `).join('') || '<p style="color:var(--text-dim)">Noch keine Leistungen.</p>';
     }
@@ -177,6 +182,7 @@ function render() {
 
     // После рендера — подписываем новые fade-up элементы на observer
     requestAnimationFrame(observeFadeUps);
+    requestAnimationFrame(initServiceCards);
 }
 
 /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
@@ -313,3 +319,56 @@ loadData().then(d => {
     render();
     observeFadeUps();
 });
+
+/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobile-menu');
+if (burger && mobileMenu) {
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        mobileMenu.classList.toggle('open');
+        document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    // Закрывать при клике на ссылку
+    mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            burger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
+}
+
+// Переключатель языка в мобильном меню тоже должен работать
+document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentLang = btn.dataset.lang;
+        document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b === btn));
+        render();
+    });
+});
+
+
+/* ===== HERO GLOW — следует за курсором ===== */
+const heroEl = document.querySelector('.hero');
+const heroGlow = document.getElementById('hero-glow');
+if (heroEl && heroGlow) {
+    heroEl.addEventListener('mousemove', (e) => {
+        const rect = heroEl.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        heroGlow.style.left = x + 'px';
+        heroGlow.style.top = y + 'px';
+    });
+}
+
+/* ===== СВЕЧЕНИЕ В КАРТОЧКАХ УСЛУГ ===== */
+function initServiceCards() {
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+        });
+    });
+}
