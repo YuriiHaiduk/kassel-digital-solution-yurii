@@ -1,5 +1,5 @@
 ---
-image: /images/teacher-8.png
+image: /images/снимок-экрана-2026-09-26-173051.png
 caption_de: Website für ein Café
 caption_en: Website for a café
 ---
