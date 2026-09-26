@@ -140,15 +140,15 @@ function render() {
     if (servicesGrid) {
         const services = (data.services || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
         servicesGrid.innerHTML = services.map((sv, i) => `
-      <div class="service-card fade-up delay-${(i % 5) + 1}">
-        <div class="service-card-glow"></div>
-        <div class="service-icon-wrap">
-          <div class="service-icon">${sv.icon || '✦'}</div>
-        </div>
-        <h3>${sv[`title_${currentLang}`] || ''}</h3>
-        <p>${sv[`desc_${currentLang}`] || ''}</p>
-        <div class="service-arrow">→</div>
-      </div>
+  <div class="service-card fade-up delay-${(i % 5) + 1}">
+    <div class="service-card-glow"></div>
+    <div class="service-icon-wrap">
+      <div class="service-icon">${sv.icon || '✦'}</div>
+    </div>
+    <h3>${sv[`title_${currentLang}`] || ''}</h3>
+    <p>${sv[`desc_${currentLang}`] || ''}</p>
+    <div class="service-arrow">→</div>
+  </div>
     `).join('') || '<p style="color:var(--text-dim)">Noch keine Leistungen.</p>';
     }
 
@@ -186,13 +186,13 @@ function render() {
 }
 
 /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
-document.querySelectorAll('.lang-switch button').forEach(btn => {
-    btn.addEventListener('click', () => {
-        currentLang = btn.dataset.lang;
-        document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b === btn));
-        render();
-    });
-});
+// document.querySelectorAll('.lang-switch button').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         currentLang = btn.dataset.lang;
+//         document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b === btn));
+//         render();
+//     });
+// });
 
 /* ===== ФОРМА ===== */
 const contactForm = document.getElementById('contact-form');
