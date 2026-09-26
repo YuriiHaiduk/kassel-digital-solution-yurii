@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: YuriiHaiduk/AI-TEST
+  repo: YuriiHaiduk/kassel-digital-solution-yurii
   branch: main
-  base_url: https://ai-barbershop-yurii.vercel.app
+  base_url: https://kassel-digital-solution-yurii.vercel.app/
   auth_endpoint: api/auth
 
 
