@@ -9,9 +9,12 @@ const GITHUB_BRANCH = 'main';
 
 /* ===== ПАРСЕР YAML FRONTMATTER ===== */
 /* ===== ПАРСЕР YAML FRONTMATTER ===== */
+/* ===== ПАРСЕР YAML FRONTMATTER ===== */
 function parseFrontmatter(text) {
-  // Убираем \r (Windows) и находим блок между первыми двумя ---
-  const normalized = text.replace(/\r\n/g, '\n');
+  // Убираем BOM, \r, и лишние переносы
+  let normalized = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // Ищем блок между --- и ---
   const match = normalized.match(/^---\s*\n([\s\S]*?)\n---/);
   if (!match) return {};
 
@@ -20,30 +23,43 @@ function parseFrontmatter(text) {
   let currentKey = null;
   let currentValue = '';
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  for (const rawLine of lines) {
+    const line = rawLine.replace(/\s+$/, ''); // убираем пробелы справа
 
-    // Новая пара key: value (не начинается с пробела)
+    // Новая пара key: value
     const keyMatch = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/);
     if (keyMatch) {
       // Сохраняем предыдущую пару
-      if (currentKey !== null) {
-        data[currentKey] = cleanValue(currentValue);
-      }
+      if (currentKey !== null) data[currentKey] = cleanValue(currentValue);
       currentKey = keyMatch[1];
       currentValue = keyMatch[2];
-    } else if (currentKey !== null) {
+    } else if (currentKey !== null && line.trim() !== '') {
       // Продолжение многострочного значения
-      currentValue += '\n' + line;
+      currentValue += ' ' + line.trim();
     }
   }
 
   // Сохраняем последнюю пару
-  if (currentKey !== null) {
-    data[currentKey] = cleanValue(currentValue);
+  if (currentKey !== null) data[currentKey] = cleanValue(currentValue);
+  return data;
+}
+
+function cleanValue(value) {
+  if (value == null) return '';
+  let v = String(value).trim();
+
+  // Если строка в кавычках — снимаем их и убираем пробелы внутри
+  if ((v.startsWith('"') && v.endsWith('"')) ||
+      (v.startsWith("'") && v.endsWith("'"))) {
+    v = v.slice(1, -1).trim();
   }
 
-  return data;
+  // Склеиваем множественные пробелы в один
+  v = v.replace(/\s+/g, ' ');
+
+  // Если это число — возвращаем числом
+  if (/^-?\d+$/.test(v)) return Number(v);
+  return v;
 }
 
 function cleanValue(value) {
