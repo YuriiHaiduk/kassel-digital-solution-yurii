@@ -357,59 +357,61 @@ if (statsBlock) {
 /* ============================================
    SLIDER — SCROLL SNAP
    ============================================ */
+/* ============================================
+   SLIDER — SCROLL SNAP
+   ============================================ */
 function initSliders() {
-  document.querySelectorAll('.slider').forEach(slider => {
-    const viewport = slider.querySelector('.slider-viewport');
-    const dotsWrap = slider.querySelector('.slider-dots');
-    const prev = slider.querySelector('.slider-arrow-prev');
-    const next = slider.querySelector('.slider-arrow-next');
-    if (!viewport) return;
+    document.querySelectorAll('.slider').forEach(slider => {
+        const viewport = slider.querySelector('.slider-viewport');
+        const dotsWrap = slider.querySelector('.slider-dots');
+        const prev = slider.querySelector('.slider-arrow-prev');
+        const next = slider.querySelector('.slider-arrow-next');
+        if (!viewport) return;
 
-    const items = Array.from(viewport.children);
-    // Если элементов ≤ 3 — стрелки и точки не нужны
-    const needArrows = items.length > 3;
+        // Снимаем инлайновый display:none, если он был выставлен ранее
+        if (prev) prev.style.display = '';
+        if (next) next.style.display = '';
+        if (dotsWrap) dotsWrap.style.display = '';
 
-    if (prev) prev.style.display = needArrows ? '' : 'none';
-    if (next) next.style.display = needArrows ? '' : 'none';
-    if (dotsWrap && !needArrows) dotsWrap.style.display = 'none';
-    if (dotsWrap && needArrows) dotsWrap.style.display = '';
+        const items = Array.from(viewport.children);
+        if (items.length === 0) return;
 
-    // Создать точки
-    if (dotsWrap && needArrows) {
-      dotsWrap.innerHTML = '';
-      items.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-        dot.addEventListener('click', () => {
-          const item = items[i];
-          viewport.scrollTo({ left: item.offsetLeft - viewport.offsetLeft, behavior: 'smooth' });
-        });
-        dotsWrap.appendChild(dot);
-      });
-    }
+        // Точки
+        if (dotsWrap) {
+            dotsWrap.innerHTML = '';
+            items.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+                dot.addEventListener('click', () => {
+                    const item = items[i];
+                    viewport.scrollTo({ left: item.offsetLeft - viewport.offsetLeft, behavior: 'smooth' });
+                });
+                dotsWrap.appendChild(dot);
+            });
+        }
 
-    // Стрелки
-    const scrollAmount = () => viewport.clientWidth * 0.9;
-    if (prev) prev.onclick = () => viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-    if (next) next.onclick = () => viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+        // Стрелки
+        const scrollAmount = () => viewport.clientWidth * 0.9;
+        if (prev) prev.onclick = () => viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+        if (next) next.onclick = () => viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
 
-    // Обновление активной точки
-    if (dotsWrap && needArrows) {
-      viewport.onscroll = () => {
-        const scrollLeft = viewport.scrollLeft;
-        let activeIndex = 0;
-        let minDist = Infinity;
-        items.forEach((item, i) => {
-          const dist = Math.abs(item.offsetLeft - viewport.offsetLeft - scrollLeft);
-          if (dist < minDist) { minDist = dist; activeIndex = i; }
-        });
-        dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => {
-          d.classList.toggle('active', i === activeIndex);
-        });
-      };
-    }
-  });
+        // Подсветка активной точки
+        if (dotsWrap) {
+            viewport.onscroll = () => {
+                const scrollLeft = viewport.scrollLeft;
+                let activeIndex = 0;
+                let minDist = Infinity;
+                items.forEach((item, i) => {
+                    const dist = Math.abs(item.offsetLeft - viewport.offsetLeft - scrollLeft);
+                    if (dist < minDist) { minDist = dist; activeIndex = i; }
+                });
+                dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === activeIndex);
+                });
+            };
+        }
+    });
 }
 
 /* ===== LIGHTBOX ===== */
