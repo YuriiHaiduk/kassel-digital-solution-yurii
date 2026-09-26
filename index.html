@@ -199,9 +199,10 @@
 </section>
 
 <!-- ===== CTA BANNER ===== -->
-<section class="cta-banner fade-up">
+<section class="cta-banner">
   <div class="wrap cta-banner-inner">
-    <div>
+    <div class="cta-banner-text">
+      <div class="eyebrow" data-i18n="cta_eyebrow">Bereit?</div>
       <h2 data-i18n="cta_title">Bereit, online durchzustarten?</h2>
       <p data-i18n="cta_sub">Lassen Sie uns in einem kurzen Gespräch herausfinden, was für Ihr Business passt.</p>
     </div>
@@ -211,55 +212,65 @@
 
 <!-- ===== CONTACT ===== -->
 <section class="contact" id="contact">
-  <div class="wrap">
-    <div class="section-head">
+  <div class="wrap contact-inner">
+
+    <!-- Левая карточка: контакты + карта -->
+    <div class="contact-info-card">
       <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
-      <h2 data-i18n="contact_title">Lassen Sie uns reden</h2>
-      <p data-i18n="contact_sub">Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.</p>
-    </div>
-    <div class="contact-inner">
-      <div class="contact-info-card">
-        <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
-        <h2 data-i18n="contact_title" style="font-size:1.4rem;margin-bottom:8px;">Lassen Sie uns reden</h2>
-        <p data-i18n="contact_sub" style="color:var(--text-dim);font-size:0.9rem;">Erzählen Sie uns von Ihrem Projekt...</p>
-        <div class="contact-info">
-          <div class="contact-item">
-            <div class="contact-item-icon">📞</div>
-            <div><div class="contact-item-label" data-i18n="contact_phone">Telefon</div><div class="contact-item-value" id="contact-phone">+49 561 12345678</div></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">✉️</div>
-            <div><div class="contact-item-label" data-i18n="contact_email">E-Mail</div><div class="contact-item-value" id="contact-email">hallo@kds-agentur.de</div></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">📍</div>
-            <div><div class="contact-item-label" data-i18n="contact_address">Adresse</div><div class="contact-item-value" id="contact-address">Musterstraße 1, 34117 Kassel</div></div>
+      <h2 data-i18n="contact_title" class="contact-card-title">Lassen Sie uns reden</h2>
+      <p data-i18n="contact_sub" class="contact-card-sub">Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.</p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label" data-i18n="contact_phone">Telefon</div>
+            <div class="contact-item-value" id="contact-phone">+49 561 12345678</div>
           </div>
         </div>
-        <div class="map">
-          <iframe id="map-frame" loading="lazy" allowfullscreen
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=9.45%2C51.29%2C9.55%2C51.34&layer=mapnik"></iframe>
-          <div class="map-overlay" id="map-overlay">
-            <span>Karte aktivieren</span>
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div>
+            <div class="contact-item-label" data-i18n="contact_email">E-Mail</div>
+            <div class="contact-item-value" id="contact-email">hallo@kds-agentur.de</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label" data-i18n="contact_address">Adresse</div>
+            <div class="contact-item-value" id="contact-address">Musterstraße 1, 34117 Kassel</div>
           </div>
         </div>
       </div>
 
-      <div class="contact-form-card">
-        <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
-        <h2 style="font-size:1.4rem;margin-bottom:8px;">Nachricht senden</h2>
-        <form id="contact-form" class="fade-up">
-          <input type="hidden" name="access_key" value="a1ec2e71-8202-47e3-86c5-4443ead0d142">
-          <input type="hidden" name="subject" value="Neue Anfrage — KDS Website">
-          <input type="text" name="name" placeholder="Name" required>
-          <input type="email" name="email" placeholder="E-Mail" required>
-          <input type="tel" name="phone" placeholder="Telefon (optional)">
-          <textarea name="message" placeholder="Nachricht" required></textarea>
-          <button type="submit" class="btn" data-i18n="contact_send">Nachricht senden</button>
-          <div id="form-status"></div>
-        </form>
+      <div class="map">
+        <iframe id="map-frame" loading="lazy" allowfullscreen
+                src="https://www.openstreetmap.org/export/embed.html?bbox=9.45%2C51.29%2C9.55%2C51.34&layer=mapnik"></iframe>
+        <div class="map-overlay" id="map-overlay">
+          <span>Karte aktivieren</span>
+        </div>
       </div>
     </div>
+
+    <!-- Правая карточка: форма -->
+    <div class="contact-form-card">
+      <div class="eyebrow" data-i18n="contact_form_eyebrow">Nachricht</div>
+      <h2 class="contact-card-title" data-i18n="contact_form_title">Schreiben Sie uns</h2>
+      <p class="contact-card-sub" data-i18n="contact_form_sub">Wir antworten in der Regel innerhalb von 24 Stunden.</p>
+
+      <form id="contact-form">
+        <input type="hidden" name="access_key" value="a1ec2e71-8202-47e3-86c5-4443ead0d142">
+        <input type="hidden" name="subject" value="Neue Anfrage — KDS Website">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="E-Mail" required>
+        <input type="tel" name="phone" placeholder="Telefon (optional)">
+        <textarea name="message" placeholder="Nachricht" required></textarea>
+        <button type="submit" class="btn" data-i18n="contact_send">Nachricht senden</button>
+        <div id="form-status"></div>
+      </form>
+    </div>
+
   </div>
 </section>
 
@@ -274,7 +285,9 @@
     </div>
   </div>
 </footer>
+
 <button class="back-to-top" id="back-to-top" aria-label="Nach oben">↑</button>
 <script src="script.js" defer></script>
+
 </body>
 </html>

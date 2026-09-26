@@ -93,6 +93,10 @@ const i18n = {
         faq_title: "Häufige Fragen",
         faq_sub: "Alles, was Sie vor dem Start wissen müssen.",
         cta_btn: "Kostenloses Gespräch →",
+        cta_eyebrow: "Bereit?",
+        contact_form_eyebrow: "Nachricht",
+        contact_form_title: "Schreiben Sie uns",
+        contact_form_sub: "Wir antworten in der Regel innerhalb von 24 Stunden.",
     },
     en: {
         nav_services: "Services", nav_gallery: "Work", nav_about: "About",
@@ -119,6 +123,10 @@ const i18n = {
         faq_title: "Frequently asked questions",
         faq_sub: "Everything you need to know before starting.",
         cta_btn: "Free consultation →",
+        cta_eyebrow: "Ready?",
+        contact_form_eyebrow: "Message",
+        contact_form_title: "Write to us",
+        contact_form_sub: "We usually reply within 24 hours.",
     }
 };
 
