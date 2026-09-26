@@ -363,61 +363,123 @@ if (statsBlock) {
 /* ============================================
    SLIDER — SCROLL SNAP (final)
    ============================================ */
+/* ============================================
+   SLIDER — БЕСКОНЕЧНАЯ КАРУСЕЛЬ
+   ============================================ */
 function initSliders() {
   document.querySelectorAll('.slider').forEach(slider => {
     const viewport = slider.querySelector('.slider-viewport');
-    const dotsWrap = slider.querySelector('.slider-dots');
     const prev = slider.querySelector('.slider-arrow-prev');
     const next = slider.querySelector('.slider-arrow-next');
+    const dotsWrap = slider.querySelector('.slider-dots');
     if (!viewport) return;
 
-    // Убираем возможные инлайновые display:none
+    const track = viewport.querySelector('.slider-track') || viewport;
+
+    // Скрываем точки — при бесконечной карусели они не нужны
+    if (dotsWrap) dotsWrap.style.display = 'none';
+
+    // Снимаем инлайновые display:none со стрелок
     if (prev) prev.style.display = '';
     if (next) next.style.display = '';
-    if (dotsWrap) dotsWrap.style.display = '';
 
-    // ВАЖНО: ищем элементы ВНУТРИ .slider-track
-    const track = viewport.querySelector('.slider-track') || viewport;
-    const items = Array.from(track.children).filter(el => !el.classList.contains('slider-dots'));
+    let items = Array.from(track.children);
     if (items.length === 0) return;
 
-    // --- ТОЧКИ ---
-    if (dotsWrap) {
-      dotsWrap.innerHTML = '';
-      items.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-        dot.addEventListener('click', () => {
-          viewport.scrollTo({
-            left: items[i].offsetLeft - track.offsetLeft,
-            behavior: 'smooth'
-          });
-        });
-        dotsWrap.appendChild(dot);
-      });
-    }
+    // Определяем, сколько элементов видно (по CSS flex-basis)
+    const getVisibleCount = () => {
+      const itemWidth = items[0].getBoundingClientRect().width;
+      if (itemWidth === 0) return 1;
+      const viewportWidth = viewport.clientWidth;
+      return Math.max(1, Math.round(viewportWidth / itemWidth));
+    };
 
-    // --- СТРЕЛКИ ---
-    const scrollAmount = () => viewport.clientWidth * 0.9;
-    if (prev) prev.onclick = () => viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-    if (next) next.onclick = () => viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-
-    // --- ПОДСВЕТКА АКТИВНОЙ ТОЧКИ ---
-    if (dotsWrap) {
-      viewport.onscroll = () => {
-        const scrollLeft = viewport.scrollLeft;
-        let activeIndex = 0;
-        let minDist = Infinity;
-        items.forEach((item, i) => {
-          const dist = Math.abs(item.offsetLeft - track.offsetLeft - scrollLeft);
-          if (dist < minDist) { minDist = dist; activeIndex = i; }
-        });
-        dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => {
-          d.classList.toggle('active', i === activeIndex);
-        });
+    // Если элементов меньше, чем влезает в экран — ничего не клонируем
+    const visibleCount = getVisibleCount();
+    if (items.length <= visibleCount) {
+      // Просто стрелки для скролла на 1 вперёд/назад
+      const scrollByStep = (dir) => {
+        const step = items[0].getBoundingClientRect().width;
+        viewport.scrollBy({ left: dir * step, behavior: 'smooth' });
       };
+      if (prev) prev.onclick = () => scrollByStep(-1);
+      if (next) next.onclick = () => scrollByStep(1);
+      return;
     }
+
+    // === БЕСКОНЕЧНАЯ КАРУСЕЛЬ ===
+    // 1. Клонируем элементы: несколько первых в конец, несколько последних в начало
+    const cloneCount = visibleCount;
+
+    // Последние cloneCount элементов → в начало (перед items)
+    const lastClones = items.slice(-cloneCount).map(el => el.cloneNode(true));
+    lastClones.reverse().forEach(el => track.insertBefore(el, track.firstChild));
+
+    // Первые cloneCount элементов → в конец
+    const firstClones = items.slice(0, cloneCount).map(el => el.cloneNode(true));
+    firstClones.forEach(el => track.appendChild(el));
+
+    // Обновляем список items — теперь с клонами
+    const allItems = Array.from(track.children);
+
+    // 2. Начальная позиция — после клонов в начале
+    const getItemStep = () => {
+      if (allItems.length < 2) return viewport.clientWidth;
+      return allItems[1].offsetLeft - allItems[0].offsetLeft;
+    };
+
+    // Индекс «настоящего» первого элемента = cloneCount
+    let currentIndex = cloneCount;
+    const step = getItemStep();
+
+    // Ставим скролл так, чтобы «настоящий» первый был в начале
+    viewport.scrollLeft = allItems[currentIndex].offsetLeft - track.offsetLeft;
+
+    // 3. Функция скролла на N шагов
+    const scrollToIndex = (index, smooth = true) => {
+      const targetLeft = allItems[index].offsetLeft - track.offsetLeft;
+      viewport.scrollTo({ left: targetLeft, behavior: smooth ? 'smooth' : 'auto' });
+    };
+
+    // 4. Стрелки
+    if (prev) prev.onclick = () => {
+      currentIndex -= 1;
+      scrollToIndex(currentIndex, true);
+    };
+    if (next) next.onclick = () => {
+      currentIndex += 1;
+      scrollToIndex(currentIndex, true);
+    };
+
+    // 5. Обработка «телепорта» после окончания скролла
+    let isTeleporting = false;
+    viewport.onscroll = () => {
+      if (isTeleporting) return;
+
+      const scrollLeft = viewport.scrollLeft;
+      const firstRealIndex = cloneCount;
+      const lastRealIndex = allItems.length - cloneCount - 1;
+
+      // Если ушли слишком далеко вправо — телепортируемся в начало
+      if (currentIndex > lastRealIndex) {
+        isTeleporting = true;
+        setTimeout(() => {
+          currentIndex = firstRealIndex;
+          scrollToIndex(currentIndex, false);
+          isTeleporting = false;
+        }, 400); // ждём окончания smooth-анимации
+      }
+
+      // Если ушли слишком далеко влево — телепортируемся в конец
+      if (currentIndex < firstRealIndex) {
+        isTeleporting = true;
+        setTimeout(() => {
+          currentIndex = lastRealIndex;
+          scrollToIndex(currentIndex, false);
+          isTeleporting = false;
+        }, 400);
+      }
+    };
   });
 }
 
