@@ -100,18 +100,33 @@
 </section>
 
 <!-- ===== GALLERY ===== -->
+<!-- ===== GALLERY SLIDER ===== -->
 <section id="gallery">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head fade-up">
       <div class="eyebrow" data-i18n="gallery_eyebrow">Arbeiten</div>
       <h2 data-i18n="gallery_title">Unsere Projekte</h2>
       <p data-i18n="gallery_sub">Ein Auszug aus dem, was wir für unsere Kunden gebaut haben.</p>
     </div>
-    <div class="gallery-grid" id="gallery-grid">
-      <!-- заполняется через JS -->
+
+    <div class="slider slider-gallery" id="gallery-slider">
+      <button class="slider-arrow slider-arrow-prev" aria-label="Zurück">‹</button>
+      <div class="slider-viewport">
+        <div class="slider-track" id="gallery-track">
+          <!-- заполняется через JS -->
+        </div>
+      </div>
+      <button class="slider-arrow slider-arrow-next" aria-label="Weiter">›</button>
+      <div class="slider-dots" id="gallery-dots"></div>
     </div>
   </div>
 </section>
+
+<!-- Lightbox для галереи -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="Schließen">×</button>
+  <img src="" alt="" id="lightbox-img">
+</div>
 
 <!-- ===== PROCESS ===== -->
 <section class="process" id="process">
@@ -163,14 +178,23 @@
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
+<!-- ===== TESTIMONIALS SLIDER ===== -->
 <section id="testimonials">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head fade-up">
       <div class="eyebrow" data-i18n="testimonials_eyebrow">Referenzen</div>
       <h2 data-i18n="testimonials_title">Was Kunden sagen</h2>
     </div>
-    <div class="testimonials-grid" id="testimonials-grid">
-      <!-- заполняется через JS -->
+
+    <div class="slider" id="testimonials-slider">
+      <button class="slider-arrow slider-arrow-prev" aria-label="Zurück">‹</button>
+      <div class="slider-viewport">
+        <div class="slider-track" id="testimonials-track">
+          <!-- заполняется через JS -->
+        </div>
+      </div>
+      <button class="slider-arrow slider-arrow-next" aria-label="Weiter">›</button>
+      <div class="slider-dots" id="testimonials-dots"></div>
     </div>
   </div>
 </section>
@@ -226,8 +250,11 @@
         </div>
         <div class="map">
           <iframe id="map-frame" loading="lazy" allowfullscreen
-            src="https://www.openstreetmap.org/export/embed.html?bbox=9.45%2C51.29%2C9.55%2C51.34&layer=mapnik">
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=9.45%2C51.29%2C9.55%2C51.34&layer=mapnik">
           </iframe>
+          <div class="map-overlay" id="map-overlay">
+            <span>Karte aktivieren</span>
+          </div>
         </div>
       </div>
       <form id="contact-form" class="fade-up">

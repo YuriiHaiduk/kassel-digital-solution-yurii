@@ -169,21 +169,23 @@ function render() {
     }
 
     // Галерея
-    const galleryGrid = document.getElementById('gallery-grid');
-    if (galleryGrid) {
-        galleryGrid.innerHTML = (data.gallery || []).map((g, i) => `
-      <div class="gallery-item fade-up delay-${(i % 5) + 1}">
+    // Галерея (в слайдере)
+    const galleryTrack = document.getElementById('gallery-track');
+    if (galleryTrack) {
+        galleryTrack.innerHTML = (data.gallery || []).map((g) => `
+      <div class="gallery-item">
         <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
         ${g[`caption_${currentLang}`] ? `<div class="gallery-caption">${g[`caption_${currentLang}`]}</div>` : ''}
       </div>
-    `).join('') || '<p style="color:var(--text-dim)">Noch keine Arbeiten.</p>';
+    `).join('') || '<p style="color:var(--text-dim);padding:40px;">Noch keine Arbeiten.</p>';
     }
 
     // Отзывы
-    const testGrid = document.getElementById('testimonials-grid');
-    if (testGrid) {
-        testGrid.innerHTML = (data.testimonials || []).map((t, i) => `
-      <div class="testimonial fade-up delay-${(i % 5) + 1}">
+    // Отзывы (в слайдере)
+    const testTrack = document.getElementById('testimonials-track');
+    if (testTrack) {
+        testTrack.innerHTML = (data.testimonials || []).map((t) => `
+      <div class="testimonial">
         <div class="testimonial-text">${t[`text_${currentLang}`] || ''}</div>
         <div class="testimonial-author">
           <div class="testimonial-avatar">${t.avatar ? `<img src="${t.avatar}" alt="">` : (t.name||'?')[0]}</div>
@@ -193,7 +195,7 @@ function render() {
           </div>
         </div>
       </div>
-    `).join('') || '<p style="color:var(--text-dim)">Noch keine Referenzen.</p>';
+    `).join('') || '<p style="color:var(--text-dim);padding:40px;">Noch keine Referenzen.</p>';
     }
 
     // Процесс
@@ -237,6 +239,19 @@ function render() {
     // После рендера — подписываем новые fade-up элементы на observer
     requestAnimationFrame(observeFadeUps);
     requestAnimationFrame(initServiceCards);
+
+    requestAnimationFrame(() => {
+        initSlider('testimonials-slider', 'testimonials-track', 'testimonials-dots', {
+            autoplay: true,
+            autoplayDelay: 6000,
+            itemsPerView: 1
+        });
+        initSlider('gallery-slider', 'gallery-track', 'gallery-dots', {
+            autoplay: true,
+            autoplayDelay: 5000,
+            itemsPerView: 3
+        });
+    });
 }
 
 /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
@@ -367,12 +382,134 @@ const statsObserver = new IntersectionObserver((entries) => {
 const statsBlock = document.querySelector('.stats');
 if (statsBlock) statsObserver.observe(statsBlock);
 
+/* ============================================
+   SLIDER — УНИВЕРСАЛЬНЫЙ
+   ============================================ */
+function initSlider(sliderId, trackId, dotsId, options = {}) {
+    const slider = document.getElementById(sliderId);
+    const track = document.getElementById(trackId);
+    const dots = document.getElementById(dotsId);
+    if (!slider || !track) return;
+
+    const autoplay = options.autoplay || false;
+    const autoplayDelay = options.autoplayDelay || 5000;
+    const itemsPerView = options.itemsPerView || 1;
+
+    let currentIndex = 0;
+    let totalSlides = 0;
+    let slidesPerView = 1;
+    let autoplayTimer = null;
+
+    function calculateSlidesPerView() {
+        if (window.innerWidth >= 900 && itemsPerView > 1) return itemsPerView;
+        return 1;
+    }
+
+    function updateLayout() {
+        slidesPerView = calculateSlidesPerView();
+        totalSlides = Math.max(1, track.children.length - slidesPerView + 1);
+        if (currentIndex >= totalSlides) currentIndex = totalSlides - 1;
+        renderDots();
+        goTo(currentIndex);
+    }
+
+    function goTo(index) {
+        currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
+        const offset = -(currentIndex * (100 / slidesPerView));
+        track.style.transform = `translateX(${offset}%)`;
+        updateDots();
+    }
+
+    function next() { goTo(currentIndex + 1 < totalSlides ? currentIndex + 1 : 0); }
+    function prev() { goTo(currentIndex - 1 >= 0 ? currentIndex - 1 : totalSlides - 1); }
+
+    function renderDots() {
+        if (!dots) return;
+        dots.innerHTML = '';
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'slider-dot' + (i === currentIndex ? ' active' : '');
+            dot.setAttribute('aria-label', 'Zu Slide ' + (i + 1));
+            dot.addEventListener('click', () => { goTo(i); resetAutoplay(); });
+            dots.appendChild(dot);
+        }
+    }
+
+    function updateDots() {
+        if (!dots) return;
+        dots.querySelectorAll('.slider-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    function resetAutoplay() {
+        if (!autoplay) return;
+        if (autoplayTimer) clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(next, autoplayDelay);
+    }
+
+    slider.querySelector('.slider-arrow-next')?.addEventListener('click', () => { next(); resetAutoplay(); });
+    slider.querySelector('.slider-arrow-prev')?.addEventListener('click', () => { prev(); resetAutoplay(); });
+
+    // Свайпы на мобиле
+    let touchStartX = 0;
+    let touchEndX = 0;
+    track.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) next(); else prev();
+            resetAutoplay();
+        }
+    }, { passive: true });
+
+    window.addEventListener('resize', updateLayout);
+    updateLayout();
+    resetAutoplay();
+}
+
+/* ===== ГАЛЕРЕЯ: ЛАЙТБОКС ===== */
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = lightbox?.querySelector('.lightbox-close');
+    if (!lightbox || !lightboxImg) return;
+
+    document.addEventListener('click', (e) => {
+        const galleryItem = e.target.closest('.gallery-item');
+        if (galleryItem) {
+            const img = galleryItem.querySelector('img');
+            if (img) {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt || '';
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    });
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    closeBtn?.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+}
+
 /* ===== СТАРТ ===== */
 loadData().then(d => {
     data = d;
     render();
     observeFadeUps();
 });
+initLightbox();
 
 /* ===== МОБИЛЬНОЕ МЕНЮ ===== */
 /* ===== МОБИЛЬНОЕ МЕНЮ ===== */
@@ -457,5 +594,13 @@ function initServiceCards() {
             card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
             card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
         });
+    });
+}
+
+/* ===== КАРТА: активация по клику ===== */
+const mapOverlay = document.getElementById('map-overlay');
+if (mapOverlay) {
+    mapOverlay.addEventListener('click', () => {
+        mapOverlay.classList.add('hidden');
     });
 }
