@@ -778,6 +778,113 @@ function initProjectModal() {
   });
 }
 
+
+/* ============================================
+   ПАРАЛЛАКС + REVEAL
+   ============================================ */
+
+/* ===== ПАРАЛЛАКС ПРИ СКРОЛЛЕ ===== */
+function initParallax() {
+  const parallaxItems = document.querySelectorAll('[data-parallax-speed]');
+  const processNumbers = document.querySelectorAll('.process-step-number');
+  const sectionHeads = document.querySelectorAll('.section-head');
+  const contact = document.querySelector('.contact');
+
+  if (!parallaxItems.length && !processNumbers.length && !sectionHeads.length) return;
+
+  let ticking = false;
+
+  function update() {
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+
+    // Hero decor — параллакс с разной скоростью
+    parallaxItems.forEach(el => {
+      const speed = parseFloat(el.dataset.parallaxSpeed) || 0.2;
+      el.style.transform = `translateY(${scrollY * speed}px)`;
+    });
+
+    // Process numbers — смещаются вверх медленнее, чем скролл
+    processNumbers.forEach((el, i) => {
+      const rect = el.getBoundingClientRect();
+      const progress = (vh - rect.top) / (vh + rect.height);
+      if (progress > -0.3 && progress < 1.3) {
+        const offset = (progress - 0.5) * 40;
+        el.style.transform = `translateY(${offset}px)`;
+      }
+    });
+
+    // Section heads — очень лёгкое смещение
+    sectionHeads.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const progress = (vh - rect.top) / (vh + rect.height);
+      if (progress > -0.3 && progress < 1.3) {
+        const offset = (progress - 0.5) * 20;
+        el.style.transform = `translateY(${offset}px)`;
+      }
+    });
+
+    // Contact orbs — двигаются в противоположную сторону от скролла
+    if (contact) {
+      const rect = contact.getBoundingClientRect();
+      const progress = (vh - rect.top) / (vh + rect.height);
+      if (progress > -0.3 && progress < 1.3) {
+        const offset = (progress - 0.5) * 60;
+        contact.style.setProperty('--parallax-offset', offset + 'px');
+      }
+    }
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', update);
+  update(); // первый вызов
+}
+
+/* ===== REVEAL ДЛЯ ЗАГОЛОВКОВ ===== */
+function initReveal() {
+  const items = document.querySelectorAll('.reveal-text');
+  if (!items.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.3,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  items.forEach(el => observer.observe(el));
+}
+
+/* ===== ПРИМЕНЯЕМ ПАРАЛЛАКС К ОРБАМ CONTACT ===== */
+function applyContactParallax() {
+  const contact = document.querySelector('.contact');
+  if (!contact) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .contact::before{
+      transform: translateY(var(--parallax-offset, 0)) translate(0, 0) scale(1);
+    }
+    .contact::after{
+      transform: translateY(calc(var(--parallax-offset, 0) * -1)) translate(0, 0) scale(1);
+    }
+  `;
+  document.head.appendChild(style);
+}
 /* ===== СТАРТ ===== */
 loadData().then(d => {
   data = d;
@@ -785,4 +892,7 @@ loadData().then(d => {
   observeFadeUps();
   initLightbox();
   initProjectModal();
+  initParallax();
+  initReveal();
+  applyContactParallax();
 });

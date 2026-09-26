@@ -497,3 +497,106 @@ body.cursor-hover .custom-cursor{width:56px;height:56px;background:rgba(124,58,2
 
 /* Запрет скролла body при открытой модалке */
 body.modal-open{overflow:hidden;}
+
+
+/* ============================================
+   ПАРАЛЛАКС + REVEAL + ДЕКОР HERO
+   ============================================ */
+
+/* ===== Декоративные элементы hero ===== */
+.hero-decor{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.hero-decor-item{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  will-change:transform;
+}
+
+/* Круг 1 — маленькая точка */
+.hero-decor-item.dot-1{
+  width:8px;height:8px;
+  background:var(--violet);
+  top:20%;left:15%;
+  opacity:0.7;
+  box-shadow:0 0 20px rgba(124,58,237,0.8);
+}
+/* Круг 2 — кольцо */
+.hero-decor-item.ring-1{
+  width:120px;height:120px;
+  border:1px solid rgba(124,58,237,0.3);
+  top:65%;left:8%;
+  background:transparent;
+}
+/* Круг 3 — градиентное пятно */
+.hero-decor-item.blob-1{
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 70%);
+  filter:blur(30px);
+  top:10%;right:5%;
+}
+/* Круг 4 — маленькая точка справа */
+.hero-decor-item.dot-2{
+  width:6px;height:6px;
+  background:var(--blue);
+  top:75%;right:15%;
+  opacity:0.8;
+  box-shadow:0 0 20px rgba(59,130,246,0.8);
+}
+/* Круг 5 — маленькое кольцо */
+.hero-decor-item.ring-2{
+  width:60px;height:60px;
+  border:1px solid rgba(59,130,246,0.35);
+  top:30%;right:30%;
+}
+
+/* На мобиле скрываем большинство декораций */
+@media (max-width:900px){
+  .hero-decor-item.blob-1,
+  .hero-decor-item.ring-2,
+  .hero-decor-item.dot-2{display:none;}
+}
+
+/* ===== Параллакс для Process (номера шагов) ===== */
+.process-step-number{
+  will-change:transform;
+  transition:transform 0.1s linear;
+}
+
+/* ===== Параллакс для орбов contact ===== */
+.contact::before,
+.contact::after{
+  will-change:transform;
+  transition:transform 0.1s linear, opacity 0.3s;
+}
+
+/* ===== REVEAL для заголовков (буква за буквой не делаем — просто выезд) ===== */
+.reveal-text{
+  display:inline-block;
+  overflow:hidden;
+  vertical-align:bottom;
+}
+.reveal-text > span{
+  display:inline-block;
+  transform:translateY(110%);
+  transition:transform 1s cubic-bezier(0.22,1,0.36,1);
+  will-change:transform;
+}
+.reveal-text.visible > span{
+  transform:translateY(0);
+}
+
+/* Задержки для каскада (если внутри несколько .reveal-text) */
+.reveal-text.delay-1 > span{transition-delay:0.1s;}
+.reveal-text.delay-2 > span{transition-delay:0.2s;}
+.reveal-text.delay-3 > span{transition-delay:0.3s;}
+
+/* ===== Параллакс для section-head (заголовки чуть смещаются вверх при скролле) ===== */
+.section-head{
+  will-change:transform;
+}
