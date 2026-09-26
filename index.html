@@ -500,13 +500,68 @@
 
 <script>
 /* ===== ЗАГРУЗКА ДАННЫХ ===== */
+/* ===== НАСТРОЙКИ GITHUB ===== */
+const GITHUB_OWNER = 'YuriiHaiduk';
+const GITHUB_REPO = 'kassel-digital-solution-yurii';
+const GITHUB_BRANCH = 'main';
+
+/* ===== ПАРСЕР YAML FRONTMATTER ===== */
+function parseFrontmatter(text) {
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const data = {};
+  match[1].split('\n').forEach(line => {
+    const idx = line.indexOf(':');
+    if (idx === -1) return;
+    const key = line.slice(0, idx).trim();
+    let value = line.slice(idx + 1).trim();
+    if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+    if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
+    if (/^\d+$/.test(value)) value = Number(value);
+    data[key] = value;
+  });
+  return data;
+}
+
+/* ===== ЧТЕНИЕ СПИСКА ФАЙЛОВ ИЗ ПАПКИ ===== */
+async function readFolder(folder, token) {
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${folder}?ref=${GITHUB_BRANCH}`;
+  const headers = { 'Accept': 'application/vnd.github.v3+json' };
+  if (token) headers['Authorization'] = `token ${token}`;
+
+  const res = await fetch(apiUrl, { headers });
+  if (!res.ok) return [];
+  const files = await res.json();
+  const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+  const items = await Promise.all(mdFiles.map(async f => {
+    const fileRes = await fetch(f.download_url);
+    const text = await fileRes.text();
+    return parseFrontmatter(text);
+  }));
+
+  return items;
+}
+
+/* ===== ЗАГРУЗКА ВСЕХ ДАННЫХ ===== */
 async function loadData() {
+  // Токен приходит из переменной окружения Vercel через отдельный endpoint
+  let token = '';
+  try {
+    const tokenRes = await fetch('/api/github-token');
+    if (tokenRes.ok) {
+      const tokenData = await tokenRes.json();
+      token = tokenData.token || '';
+    }
+  } catch (e) { /* токен не критичен, работаем без него */ }
+
   const [site, services, gallery, testimonials] = await Promise.all([
     fetch('/site-data.json').then(r => r.json()),
-    fetch('/content/services/index.json').then(r => r.json()).catch(() => []),
-    fetch('/content/gallery/index.json').then(r => r.json()).catch(() => []),
-    fetch('/content/testimonials/index.json').then(r => r.json()).catch(() => [])
+    readFolder('content/services', token),
+    readFolder('content/gallery', token),
+    readFolder('content/testimonials', token)
   ]);
+
   return { site, services, gallery, testimonials };
 }
 
@@ -572,16 +627,17 @@ function render() {
   document.getElementById('contact-address').textContent = s.address || '';
 
   // Услуги
+  // Услуги
   const servicesGrid = document.getElementById('services-grid');
   servicesGrid.innerHTML = data.services
-    .sort((a,b) => (a.order||0) - (b.order||0))
-    .map(sv => `
+          .sort((a,b) => (a.order||0) - (b.order||0))
+          .map(sv => `
       <div class="service-card">
         <div class="service-icon">${sv.icon || '✦'}</div>
         <h3>${sv[`title_${currentLang}`] || ''}</h3>
         <p>${sv[`desc_${currentLang}`] || ''}</p>
       </div>
-    `).join('');
+    `).join('') || '<p style="color:var(--text-dim)">Noch keine Leistungen.</p>';
 
   // Галерея
   const galleryGrid = document.getElementById('gallery-grid');
@@ -590,7 +646,7 @@ function render() {
       <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
       ${g[`caption_${currentLang}`] ? `<div class="gallery-caption">${g[`caption_${currentLang}`]}</div>` : ''}
     </div>
-  `).join('');
+  `).join('') || '<p style="color:var(--text-dim)">Noch keine Arbeiten.</p>';
 
   // Отзывы
   const testGrid = document.getElementById('testimonials-grid');
@@ -605,7 +661,7 @@ function render() {
         </div>
       </div>
     </div>
-  `).join('');
+  `).join('') || '<p style="color:var(--text-dim)">Noch keine Referenzen.</p>';
 }
 
 /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
