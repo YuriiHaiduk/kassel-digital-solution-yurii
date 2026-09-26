@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kassel Digital Solutions — Websites, Werbung & Content</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-alt:#12121a;
+    --card:#16161f;
+    --text:#f5f5f7;
+    --text-dim:#8a8a9a;
+    --violet:#7c3aed;
+    --blue:#3b82f6;
+    --gradient:linear-gradient(135deg,#7c3aed 0%,#3b82f6 100%);
+    --line:rgba(255,255,255,0.08);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1;letter-spacing:-0.02em;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+  /* ===== HEADER ===== */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 0;
+    backdrop-filter:blur(20px);
+    background:rgba(10,10,15,0.7);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    display:flex;justify-content:space-between;align-items:center;
+    max-width:1200px;margin:0 auto;padding:0 24px;
+  }
+  .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.25rem;font-weight:700;letter-spacing:-0.02em;
+  }
+  .logo span{
+    background:var(--gradient);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  nav{display:flex;gap:32px;align-items:center;}
+  nav a{color:var(--text-dim);font-size:0.95rem;font-weight:500;transition:color 0.2s;}
+  nav a:hover{color:var(--text);}
+  .lang-switch{
+    display:flex;gap:4px;background:var(--card);
+    border:1px solid var(--line);border-radius:8px;padding:4px;
+  }
+  .lang-switch button{
+    background:none;border:none;color:var(--text-dim);
+    padding:6px 12px;border-radius:6px;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:600;
+    transition:all 0.2s;
+  }
+  .lang-switch button.active{
+    background:var(--gradient);color:#fff;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height:100vh;
+    display:flex;align-items:center;
+    position:relative;
+    padding:140px 0 80px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;
+    top:-20%;right:-10%;
+    width:700px;height:700px;
+    background:radial-gradient(circle,rgba(124,58,237,0.25) 0%,transparent 70%);
+    filter:blur(60px);z-index:0;
+  }
+  .hero::after{
+    content:'';position:absolute;
+    bottom:-20%;left:-10%;
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%);
+    filter:blur(60px);z-index:0;
+  }
+  .hero-inner{position:relative;z-index:1;max-width:900px;}
+  .badge{
+    display:inline-block;
+    padding:8px 16px;
+    background:rgba(124,58,237,0.15);
+    border:1px solid rgba(124,58,237,0.3);
+    border-radius:100px;
+    font-size:0.85rem;font-weight:500;
+    color:#c4b5fd;
+    margin-bottom:28px;
+  }
+  .hero h1{
+    font-size:clamp(2.5rem,6vw,4.5rem);
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:var(--gradient);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .hero p{
+    font-size:1.15rem;
+    color:var(--text-dim);
+    max-width:60ch;
+    margin-bottom:40px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 32px;
+    background:var(--gradient);
+    color:#fff;
+    border-radius:12px;
+    font-weight:600;
+    font-size:1rem;
+    border:none;cursor:pointer;
+    font-family:'Inter',sans-serif;
+    transition:transform 0.2s,box-shadow 0.2s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(124,58,237,0.4);}
+  .btn-outline{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--text);
+  }
+  .btn-outline:hover{border-color:var(--violet);box-shadow:none;}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+
+  /* ===== SECTIONS ===== */
+  section{padding:120px 0;position:relative;}
+  .section-head{margin-bottom:64px;max-width:700px;}
+  .eyebrow{
+    display:inline-block;
+    font-size:0.85rem;font-weight:600;
+    color:var(--violet);
+    text-transform:uppercase;letter-spacing:0.15em;
+    margin-bottom:16px;
+  }
+  .section-head h2{
+    font-size:clamp(2rem,4vw,3rem);
+    margin-bottom:16px;
+  }
+  .section-head p{color:var(--text-dim);font-size:1.05rem;}
+
+  /* ===== SERVICES ===== */
+  .services{background:var(--bg-alt);}
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:24px;
+  }
+  .service-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px 32px;
+    transition:border-color 0.3s,transform 0.3s;
+    position:relative;overflow:hidden;
+  }
+  .service-card::before{
+    content:'';position:absolute;
+    top:0;left:0;right:0;height:2px;
+    background:var(--gradient);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform 0.4s;
+  }
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-card:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-4px);}
+  .service-icon{
+    font-size:2rem;margin-bottom:20px;
+    display:inline-flex;align-items:center;justify-content:center;
+    width:60px;height:60px;
+    background:rgba(124,58,237,0.1);
+    border-radius:14px;
+  }
+  .service-card h3{font-size:1.35rem;margin-bottom:12px;}
+  .service-card p{color:var(--text-dim);font-size:0.98rem;}
+
+  /* ===== GALLERY ===== */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px;
+  }
+  .gallery-item{
+    position:relative;
+    aspect-ratio:4/3;
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:var(--card);
+    border:1px solid var(--line);
+  }
+  .gallery-item img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform 0.6s;
+  }
+  .gallery-item:hover img{transform:scale(1.05);}
+  .gallery-caption{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:20px;
+    background:linear-gradient(transparent,rgba(0,0,0,0.85));
+    font-size:0.95rem;font-weight:500;
+  }
+
+  /* ===== ABOUT ===== */
+  .about{background:var(--bg-alt);}
+  .about-inner{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;align-items:center;
+  }
+  .about h2{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:24px;}
+  .about p{color:var(--text-dim);font-size:1.05rem;}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .stat{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 24px;
+  }
+  .stat-number{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:2.5rem;font-weight:700;
+    background:var(--gradient);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+    line-height:1;
+    margin-bottom:8px;
+  }
+  .stat-label{color:var(--text-dim);font-size:0.9rem;}
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:24px;
+  }
+  .testimonial{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px;
+    position:relative;
+  }
+  .testimonial::before{
+    content:'"';position:absolute;
+    top:16px;right:24px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:5rem;line-height:1;
+    color:rgba(124,58,237,0.15);
+  }
+  .testimonial-text{color:var(--text);font-size:1rem;margin-bottom:24px;position:relative;z-index:1;}
+  .testimonial-author{display:flex;align-items:center;gap:12px;}
+  .testimonial-avatar{
+    width:48px;height:48px;border-radius:50%;
+    background:var(--gradient);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:600;font-size:1.1rem;color:#fff;
+    overflow:hidden;
+  }
+  .testimonial-avatar img{width:100%;height:100%;object-fit:cover;}
+  .testimonial-name{font-weight:600;font-size:0.95rem;}
+  .testimonial-company{color:var(--text-dim);font-size:0.85rem;}
+
+  /* ===== CONTACT ===== */
+  .contact{background:var(--bg-alt);}
+  .contact-inner{
+    display:grid;grid-template-columns:1fr 1fr;gap:80px;
+  }
+  .contact-info{display:flex;flex-direction:column;gap:24px;margin-top:32px;}
+  .contact-item{display:flex;gap:16px;align-items:flex-start;}
+  .contact-item-icon{
+    width:44px;height:44px;flex-shrink:0;
+    background:rgba(124,58,237,0.1);
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+  }
+  .contact-item-label{color:var(--text-dim);font-size:0.85rem;margin-bottom:4px;}
+  .contact-item-value{font-weight:500;}
+  form{display:flex;flex-direction:column;gap:16px;margin-top:32px;}
+  input,textarea{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:1rem;
+    padding:16px 18px;
+    outline:none;
+    transition:border-color 0.2s;
+    width:100%;
+  }
+  input:focus,textarea:focus{border-color:var(--violet);}
+  textarea{resize:vertical;min-height:120px;}
+  #form-status{font-size:0.9rem;min-height:1.2em;}
+  #form-status.ok{color:#4ade80;}
+  #form-status.err{color:#f87171;}
+
+  /* ===== MAP ===== */
+  .map{margin-top:64px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);}
+  .map iframe{width:100%;height:400px;border:0;display:block;filter:invert(90%) hue-rotate(180deg) contrast(0.9);}
+
+  /* ===== FOOTER ===== */
+  footer{
+    padding:48px 0;
+    border-top:1px solid var(--line);
+    color:var(--text-dim);
+    font-size:0.9rem;
+  }
+  .footer-inner{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+  }
+  .footer-social{display:flex;gap:16px;}
+  .footer-social a{
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:10px;
+    transition:border-color 0.2s;
+  }
+  .footer-social a:hover{border-color:var(--violet);}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:900px){
+    nav{display:none;}
+    .about-inner,.contact-inner{grid-template-columns:1fr;gap:48px;}
+    section{padding:80px 0;}
+  }
+  @media (max-width:600px){
+    .hero{padding:120px 0 60px;}
+    .hero-actions{flex-direction:column;}
+    .btn{width:100%;justify-content:center;}
+    .stats{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="logo">Kassel <span>Digital</span> Solutions</div>
+    <nav>
+      <a href="#services" data-i18n="nav_services">Leistungen</a>
+      <a href="#gallery" data-i18n="nav_gallery">Arbeiten</a>
+      <a href="#about" data-i18n="nav_about">Über uns</a>
+      <a href="#testimonials" data-i18n="nav_testimonials">Referenzen</a>
+      <a href="#contact" data-i18n="nav_contact">Kontakt</a>
+      <div class="lang-switch">
+        <button data-lang="de" class="active">DE</button>
+        <button data-lang="en">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="badge" data-i18n="hero_badge">Digitalagentur aus Kassel</div>
+    <h1><span data-i18n="hero_title">Wir bauen Websites, die verkaufen.</span></h1>
+    <p data-i18n="hero_sub">Websites, Werbung und Content für Unternehmen in Kassel und ganz Deutschland.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn" data-i18n="hero_cta">Projekt starten →</a>
+      <a href="#services" class="btn btn-outline" data-i18n="hero_cta2">Leistungen ansehen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="services_eyebrow">Leistungen</div>
+      <h2 data-i18n="services_title">Was wir für Sie tun</h2>
+      <p data-i18n="services_sub">Von der Website bis zur Werbekampagne — alles aus einer Hand.</p>
+    </div>
+    <div class="services-grid" id="services-grid">
+      <!-- заполняется через JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="gallery_eyebrow">Arbeiten</div>
+      <h2 data-i18n="gallery_title">Unsere Projekte</h2>
+      <p data-i18n="gallery_sub">Ein Auszug aus dem, was wir für unsere Kunden gebaut haben.</p>
+    </div>
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- заполняется через JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about" id="about">
+  <div class="wrap about-inner">
+    <div>
+      <div class="eyebrow" data-i18n="about_eyebrow">Über uns</div>
+      <h2 data-i18n="about_title">Ihr digitaler Partner in Kassel</h2>
+      <p data-i18n="about_text">Wir sind ein Team aus Entwicklern, Designern und Marketern...</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-number">7+</div><div class="stat-label" data-i18n="stat_years">Jahre Erfahrung</div></div>
+      <div class="stat"><div class="stat-number">120+</div><div class="stat-label" data-i18n="stat_projects">Projekte</div></div>
+      <div class="stat"><div class="stat-number">40+</div><div class="stat-label" data-i18n="stat_clients">Kunden</div></div>
+      <div class="stat"><div class="stat-number">24/7</div><div class="stat-label" data-i18n="stat_support">Support</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="testimonials_eyebrow">Referenzen</div>
+      <h2 data-i18n="testimonials_title">Was Kunden sagen</h2>
+    </div>
+    <div class="testimonials-grid" id="testimonials-grid">
+      <!-- заполняется через JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
+      <h2 data-i18n="contact_title">Lassen Sie uns reden</h2>
+      <p data-i18n="contact_sub">Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.</p>
+    </div>
+    <div class="contact-inner">
+      <div>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div><div class="contact-item-label" data-i18n="contact_phone">Telefon</div><div class="contact-item-value" id="contact-phone">+49 561 12345678</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div><div class="contact-item-label" data-i18n="contact_email">E-Mail</div><div class="contact-item-value" id="contact-email">hallo@kds-agentur.de</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div><div class="contact-item-label" data-i18n="contact_address">Adresse</div><div class="contact-item-value" id="contact-address">Musterstraße 1, 34117 Kassel</div></div>
+          </div>
+        </div>
+        <div class="map">
+          <iframe id="map-frame" loading="lazy" allowfullscreen
+            src="https://www.openstreetmap.org/export/embed.html?bbox=9.45%2C51.29%2C9.55%2C51.34&layer=mapnik">
+          </iframe>
+        </div>
+      </div>
+      <form id="contact-form">
+        <input type="hidden" name="access_key" value="ВАШ_WEB3FORMS_КЛЮЧ">
+        <input type="hidden" name="subject" value="Neue Anfrage — KDS Website">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="E-Mail" required>
+        <input type="tel" name="phone" placeholder="Telefon (optional)">
+        <textarea name="message" placeholder="Nachricht" required></textarea>
+        <button type="submit" class="btn" data-i18n="contact_send">Nachricht senden</button>
+        <div id="form-status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap footer-inner">
+    <div>© 2026 Kassel Digital Solutions</div>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">📷</a>
+      <a href="#" aria-label="TikTok">🎵</a>
+      <a href="#" aria-label="LinkedIn">💼</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== ЗАГРУЗКА ДАННЫХ ===== */
+async function loadData() {
+  const [site, services, gallery, testimonials] = await Promise.all([
+    fetch('/site-data.json').then(r => r.json()),
+    fetch('/content/services/index.json').then(r => r.json()).catch(() => []),
+    fetch('/content/gallery/index.json').then(r => r.json()).catch(() => []),
+    fetch('/content/testimonials/index.json').then(r => r.json()).catch(() => [])
+  ]);
+  return { site, services, gallery, testimonials };
+}
+
+/* ===== ПЕРЕВОДЫ (статичные надписи) ===== */
+const i18n = {
+  de: {
+    nav_services: "Leistungen", nav_gallery: "Arbeiten", nav_about: "Über uns",
+    nav_testimonials: "Referenzen", nav_contact: "Kontakt",
+    hero_badge: "Digitalagentur aus Kassel",
+    hero_cta: "Projekt starten →", hero_cta2: "Leistungen ansehen",
+    services_eyebrow: "Leistungen", services_title: "Was wir für Sie tun",
+    services_sub: "Von der Website bis zur Werbekampagne — alles aus einer Hand.",
+    gallery_eyebrow: "Arbeiten", gallery_title: "Unsere Projekte",
+    gallery_sub: "Ein Auszug aus dem, was wir für unsere Kunden gebaut haben.",
+    about_eyebrow: "Über uns",
+    stat_years: "Jahre Erfahrung", stat_projects: "Projekte",
+    stat_clients: "Kunden", stat_support: "Support",
+    testimonials_eyebrow: "Referenzen", testimonials_title: "Was Kunden sagen",
+    contact_eyebrow: "Kontakt", contact_title: "Lassen Sie uns reden",
+    contact_sub: "Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.",
+    contact_phone: "Telefon", contact_email: "E-Mail", contact_address: "Adresse",
+    contact_send: "Nachricht senden"
+  },
+  en: {
+    nav_services: "Services", nav_gallery: "Work", nav_about: "About",
+    nav_testimonials: "Testimonials", nav_contact: "Contact",
+    hero_badge: "Digital agency from Kassel",
+    hero_cta: "Start a project →", hero_cta2: "View services",
+    services_eyebrow: "Services", services_title: "What we do for you",
+    services_sub: "From website to ad campaign — everything from one hand.",
+    gallery_eyebrow: "Work", gallery_title: "Our projects",
+    gallery_sub: "A selection of what we built for our clients.",
+    about_eyebrow: "About us",
+    stat_years: "Years of experience", stat_projects: "Projects",
+    stat_clients: "Clients", stat_support: "Support",
+    testimonials_eyebrow: "Testimonials", testimonials_title: "What clients say",
+    contact_eyebrow: "Contact", contact_title: "Let's talk",
+    contact_sub: "Tell us about your project — we'll get back within 24 hours.",
+    contact_phone: "Phone", contact_email: "Email", contact_address: "Address",
+    contact_send: "Send message"
+  }
+};
+
+let currentLang = 'de';
+let data = {};
+
+/* ===== РЕНДЕР ===== */
+function render() {
+  // Статичные переводы
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+  });
+
+  // Hero + About + Contacts из site-data.json
+  const s = data.site;
+  document.querySelector('[data-i18n="hero_title"]').textContent = s[`hero_title_${currentLang}`] || '';
+  document.querySelector('[data-i18n="hero_sub"]').textContent = s[`hero_sub_${currentLang}`] || '';
+  document.querySelector('[data-i18n="about_title"]').textContent = s[`about_title_${currentLang}`] || '';
+  document.querySelector('[data-i18n="about_text"]').textContent = s[`about_text_${currentLang}`] || '';
+  document.getElementById('contact-phone').textContent = s.phone || '';
+  document.getElementById('contact-email').textContent = s.email || '';
+  document.getElementById('contact-address').textContent = s.address || '';
+
+  // Услуги
+  const servicesGrid = document.getElementById('services-grid');
+  servicesGrid.innerHTML = data.services
+    .sort((a,b) => (a.order||0) - (b.order||0))
+    .map(sv => `
+      <div class="service-card">
+        <div class="service-icon">${sv.icon || '✦'}</div>
+        <h3>${sv[`title_${currentLang}`] || ''}</h3>
+        <p>${sv[`desc_${currentLang}`] || ''}</p>
+      </div>
+    `).join('');
+
+  // Галерея
+  const galleryGrid = document.getElementById('gallery-grid');
+  galleryGrid.innerHTML = data.gallery.map(g => `
+    <div class="gallery-item">
+      <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
+      ${g[`caption_${currentLang}`] ? `<div class="gallery-caption">${g[`caption_${currentLang}`]}</div>` : ''}
+    </div>
+  `).join('');
+
+  // Отзывы
+  const testGrid = document.getElementById('testimonials-grid');
+  testGrid.innerHTML = data.testimonials.map(t => `
+    <div class="testimonial">
+      <div class="testimonial-text">${t[`text_${currentLang}`] || ''}</div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">${t.avatar ? `<img src="${t.avatar}" alt="">` : (t.name||'?')[0]}</div>
+        <div>
+          <div class="testimonial-name">${t.name || ''}</div>
+          ${t.company ? `<div class="testimonial-company">${t.company}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ===== */
+document.querySelectorAll('.lang-switch button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentLang = btn.dataset.lang;
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b === btn));
+    render();
+  });
+});
+
+/* ===== ФОРМА ===== */
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('form-status');
+  btn.disabled = true;
+  status.className = '';
+  status.textContent = '...';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    });
+    const json = await res.json();
+    if (json.success) {
+      status.className = 'ok';
+      status.textContent = currentLang === 'de' ? 'Danke! Wir melden uns bald.' : 'Thanks! We will contact you soon.';
+      form.reset();
+    } else throw new Error();
+  } catch {
+    status.className = 'err';
+    status.textContent = currentLang === 'de' ? 'Fehler. Bitte später erneut versuchen.' : 'Error. Please try again later.';
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ===== СТАРТ ===== */
+loadData().then(d => { data = d; render(); });
+</script>
+
+</body>
+</html>
