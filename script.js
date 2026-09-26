@@ -252,18 +252,18 @@ function render() {
   // Галерея
   const galleryTrack = document.getElementById('gallery-track');
   if (galleryTrack) {
-    galleryTrack.innerHTML = (data.gallery || []).map(g => `
-      <div class="gallery-item">
-        <div class="gallery-image">
-          <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
-        </div>
-        <div class="gallery-caption">
-          <h4>${g[`caption_${currentLang}`] || ''}</h4>
-          ${g[`desc_${currentLang}`] ? `<p>${g[`desc_${currentLang}`]}</p>` : ''}
-          <span class="gallery-link">Ansehen →</span>
-        </div>
-      </div>
-    `).join('') || '<p style="color:var(--text-dim);padding:40px;">Noch keine Arbeiten.</p>';
+    galleryTrack.innerHTML = (data.gallery || []).map((g, i) => `
+  <div class="gallery-item" data-index="${i}">
+    <div class="gallery-image">
+      <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
+    </div>
+    <div class="gallery-caption">
+      <h4>${g[`caption_${currentLang}`] || ''}</h4>
+      ${g[`desc_${currentLang}`] ? `<p>${g[`desc_${currentLang}`]}</p>` : ''}
+      <span class="gallery-link">Ansehen →</span>
+    </div>
+  </div>
+`).join('') || '...';
   }
 
   // Отзывы
@@ -730,12 +730,14 @@ if (cursor && cursorDot && !isTouchDevice) {
 /* ============================================
    PROJECT MODAL — модальное окно проекта
    ============================================ */
+/* ============================================
+   PROJECT MODAL — модальное окно проекта
+   ============================================ */
 function initProjectModal() {
   const modal = document.getElementById('project-modal');
   const modalImg = document.getElementById('project-modal-img');
   const modalTitle = document.getElementById('project-modal-title');
   const modalDesc = document.getElementById('project-modal-desc');
-  const modalLink = document.getElementById('project-modal-link');
   const modalClose = document.getElementById('project-modal-close');
 
   if (!modal || !modalImg || !modalTitle || !modalDesc) return;
@@ -746,13 +748,6 @@ function initProjectModal() {
     modalTitle.textContent = project[`caption_${currentLang}`] || '';
     modalDesc.textContent = project[`desc_${currentLang}`] || '';
 
-    if (project.url) {
-      modalLink.href = project.url;
-      modalLink.hidden = false;
-    } else {
-      modalLink.hidden = true;
-    }
-
     modal.classList.add('open');
     document.body.classList.add('modal-open');
   }
@@ -762,19 +757,15 @@ function initProjectModal() {
     document.body.classList.remove('modal-open');
   }
 
-  // Открытие: клик по карточке галереи
+  // Открытие: клик по карточке галереи — берём индекс из data-index
   document.addEventListener('click', (e) => {
     const item = e.target.closest('.gallery-item');
-    if (item && data.gallery) {
-      // Находим индекс карточки среди элементов галереи
-      const allItems = Array.from(document.querySelectorAll('#gallery-track > .gallery-item'));
-      const index = allItems.indexOf(item);
-      // Берём данные из data.gallery по индексу (с учётом клонов слайдера — берём по модулю)
-      if (index >= 0 && data.gallery.length > 0) {
-        const realIndex = index % data.gallery.length;
-        openModal(data.gallery[realIndex]);
-      }
-    }
+    if (!item) return;
+
+    const index = parseInt(item.dataset.index, 10);
+    if (isNaN(index) || !data.gallery || !data.gallery[index]) return;
+
+    openModal(data.gallery[index]);
   });
 
   // Закрытие
