@@ -218,7 +218,10 @@
       <p data-i18n="contact_sub">Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.</p>
     </div>
     <div class="contact-inner">
-      <div>
+      <div class="contact-info-card">
+        <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
+        <h2 data-i18n="contact_title" style="font-size:1.4rem;margin-bottom:8px;">Lassen Sie uns reden</h2>
+        <p data-i18n="contact_sub" style="color:var(--text-dim);font-size:0.9rem;">Erzählen Sie uns von Ihrem Projekt...</p>
         <div class="contact-info">
           <div class="contact-item">
             <div class="contact-item-icon">📞</div>
@@ -241,16 +244,21 @@
           </div>
         </div>
       </div>
-      <form id="contact-form" class="fade-up">
-        <input type="hidden" name="access_key" value="a1ec2e71-8202-47e3-86c5-4443ead0d142">
-        <input type="hidden" name="subject" value="Neue Anfrage — KDS Website">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="E-Mail" required>
-        <input type="tel" name="phone" placeholder="Telefon (optional)">
-        <textarea name="message" placeholder="Nachricht" required></textarea>
-        <button type="submit" class="btn" data-i18n="contact_send">Nachricht senden</button>
-        <div id="form-status"></div>
-      </form>
+
+      <div class="contact-form-card">
+        <div class="eyebrow" data-i18n="contact_eyebrow">Kontakt</div>
+        <h2 style="font-size:1.4rem;margin-bottom:8px;">Nachricht senden</h2>
+        <form id="contact-form" class="fade-up">
+          <input type="hidden" name="access_key" value="a1ec2e71-8202-47e3-86c5-4443ead0d142">
+          <input type="hidden" name="subject" value="Neue Anfrage — KDS Website">
+          <input type="text" name="name" placeholder="Name" required>
+          <input type="email" name="email" placeholder="E-Mail" required>
+          <input type="tel" name="phone" placeholder="Telefon (optional)">
+          <textarea name="message" placeholder="Nachricht" required></textarea>
+          <button type="submit" class="btn" data-i18n="contact_send">Nachricht senden</button>
+          <div id="form-status"></div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
