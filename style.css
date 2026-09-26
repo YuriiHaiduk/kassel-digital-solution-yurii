@@ -926,3 +926,163 @@ footer{
     from{transform:translateX(0);}
     to{transform:translateX(-50%);}
 }
+
+
+/* ============================================
+   PROCESS
+   ============================================ */
+.process{background:var(--bg-alt);}
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+    position:relative;
+}
+.process-step{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:40px 28px 32px;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.4s,border-color 0.4s;
+}
+.process-step:hover{
+    transform:translateY(-6px);
+    border-color:rgba(124,58,237,0.5);
+}
+.process-step-number{
+    position:absolute;
+    top:-10px;right:16px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:5rem;font-weight:700;
+    line-height:1;
+    color:rgba(124,58,237,0.12);
+    z-index:0;
+}
+.process-step h3{
+    font-size:1.25rem;
+    margin-bottom:12px;
+    position:relative;z-index:1;
+}
+.process-step p{
+    color:var(--text-dim);
+    font-size:0.95rem;
+    position:relative;z-index:1;
+}
+.process-step-bar{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    height:2px;
+    background:var(--gradient);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.4s;
+}
+.process-step:hover .process-step-bar{transform:scaleX(1);}
+
+/* ============================================
+   MARQUEE DIVIDER
+   ============================================ */
+.marquee-divider{
+    overflow:hidden;
+    padding:32px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--bg);
+    mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);
+}
+.marquee-divider-track{
+    display:flex;gap:40px;
+    white-space:nowrap;
+    animation:marquee 40s linear infinite;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.5rem;font-weight:600;
+    color:var(--text-dim);
+}
+.marquee-divider-track span:nth-child(even){color:var(--violet);}
+
+/* ============================================
+   FAQ
+   ============================================ */
+.faq{background:var(--bg-alt);}
+.faq-list{
+    max-width:800px;
+    margin:0 auto;
+    display:flex;flex-direction:column;gap:12px;
+}
+.faq-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    transition:border-color 0.3s;
+}
+.faq-item.open{border-color:rgba(124,58,237,0.5);}
+.faq-question{
+    width:100%;
+    padding:22px 28px;
+    background:none;border:none;
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.1rem;font-weight:600;
+    text-align:left;
+    cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;
+    gap:16px;
+}
+.faq-question::after{
+    content:'+';
+    font-size:1.6rem;
+    color:var(--violet);
+    transition:transform 0.3s;
+    line-height:1;
+}
+.faq-item.open .faq-question::after{
+    transform:rotate(45deg);
+}
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.4s cubic-bezier(0.22,1,0.36,1);
+    padding:0 28px;
+}
+.faq-item.open .faq-answer{
+    max-height:400px;
+    padding:0 28px 24px;
+}
+.faq-answer p{
+    color:var(--text-dim);
+    font-size:0.98rem;
+}
+
+/* ============================================
+   CTA BANNER
+   ============================================ */
+.cta-banner{
+    padding:80px 0;
+    background:
+            radial-gradient(circle at 20% 50%,rgba(124,58,237,0.25),transparent 60%),
+            radial-gradient(circle at 80% 50%,rgba(59,130,246,0.25),transparent 60%),
+            var(--bg);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+}
+.cta-banner-inner{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:40px;flex-wrap:wrap;
+}
+.cta-banner h2{
+    font-size:clamp(1.8rem,3.5vw,2.6rem);
+    margin-bottom:12px;
+}
+.cta-banner p{
+    color:var(--text-dim);
+    font-size:1.05rem;
+    max-width:50ch;
+}
+.btn-large{
+    padding:20px 40px;
+    font-size:1.05rem;
+}

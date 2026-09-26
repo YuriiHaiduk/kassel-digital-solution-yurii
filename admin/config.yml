@@ -36,6 +36,31 @@ collections:
           - { label: "Телефон", name: "phone", widget: "string" }
           - { label: "Email",   name: "email", widget: "string" }
           - { label: "Адрес",   name: "address", widget: "string" }
+          - # --- CTA BANNER ---
+            - { label: "DE | CTA — заголовок", name: "cta_title_de", widget: "string" }
+            - { label: "EN | CTA — title",     name: "cta_title_en", widget: "string" }
+            - { label: "DE | CTA — подзаголовок", name: "cta_sub_de", widget: "text" }
+            - { label: "EN | CTA — subtitle",    name: "cta_sub_en", widget: "text" }
+
+            # --- ПРОЦЕСС ---
+            - label: "Процесс (4 шага)"
+              name: "process"
+              widget: "list"
+              fields:
+                - { label: "DE | Название", name: "title_de", widget: "string" }
+                - { label: "EN | Title",    name: "title_en", widget: "string" }
+                - { label: "DE | Описание", name: "desc_de", widget: "text" }
+                - { label: "EN | Description", name: "desc_en", widget: "text" }
+
+            # --- FAQ ---
+            - label: "FAQ"
+              name: "faq"
+              widget: "list"
+              fields:
+                - { label: "DE | Вопрос", name: "q_de", widget: "string" }
+                - { label: "EN | Question", name: "q_en", widget: "string" }
+                - { label: "DE | Ответ", name: "a_de", widget: "text" }
+                - { label: "EN | Answer", name: "a_en", widget: "text" }
 
   # ============ УСЛУГИ ============
   - name: "services"

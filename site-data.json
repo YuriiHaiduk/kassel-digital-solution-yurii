@@ -1,13 +1,84 @@
 {
-  "about_text_de": "Wir sind ein Team aus Entwicklern, Designern und Marketern. Seit 2018 helfen wir Unternehmen, online sichtbar zu werden — mit Websites, die funktionieren, und Werbung, die wirkt.",
-  "about_title_en": "Your digital partner in Kassel",
-  "hero_sub_de": "Websites, Werbung und Content für Unternehmen in Kassel und ganz Deutschland.",
-  "about_text_en": "We are a team of developers, designers and marketers. Since 2018 we help businesses become visible online — with websites that work and advertising that converts.",
-  "hero_title_de": "Wir bauen Websites, die verkaufen - ist es so",
-  "hero_sub_en": "Websites, advertising and content for businesses in Kassel and across Germany.",
-  "phone": "+49 561 12345678",
-  "address": "Musterstraße 1, 34117 Kassel",
+  "hero_title_de": "Wir bauen Websites, die verkaufen.",
   "hero_title_en": "We build websites that sell.",
+  "hero_sub_de": "Websites, Werbung und Content für Unternehmen in Kassel und ganz Deutschland.",
+  "hero_sub_en": "Websites, advertising and content for businesses in Kassel and across Germany.",
   "about_title_de": "Ihr digitaler Partner in Kassel",
-  "email": "hallo@kds-agentur.de"
+  "about_title_en": "Your digital partner in Kassel",
+  "about_text_de": "Wir sind ein Team aus Entwicklern, Designern und Marketern. Seit 2018 helfen wir Unternehmen, online sichtbar zu werden.",
+  "about_text_en": "We are a team of developers, designers and marketers. Since 2018 we help businesses become visible online.",
+  "phone": "+49 561 12345678",
+  "email": "hallo@kds-agentur.de",
+  "address": "Musterstraße 1, 34117 Kassel",
+
+  "cta_title_de": "Bereit, online durchzustarten?",
+  "cta_title_en": "Ready to go online?",
+  "cta_sub_de": "Lassen Sie uns in einem kurzen Gespräch herausfinden, was für Ihr Business passt.",
+  "cta_sub_en": "Let's find out in a short call what fits your business.",
+
+  "process": [
+    {
+      "title_de": "Erstgespräch",
+      "title_en": "Discovery call",
+      "desc_de": "Wir hören zu, verstehen Ihre Ziele und definieren den Rahmen.",
+      "desc_en": "We listen, understand your goals and define the scope."
+    },
+    {
+      "title_de": "Strategie & Design",
+      "title_en": "Strategy & design",
+      "desc_de": "Wir erstellen Konzept, Wireframes und Design-Entwürfe.",
+      "desc_en": "We create concept, wireframes and design drafts."
+    },
+    {
+      "title_de": "Umsetzung",
+      "title_en": "Development",
+      "desc_de": "Wir bauen die Website, richten die Werbung ein, produzieren Content.",
+      "desc_en": "We build the website, set up ads, produce content."
+    },
+    {
+      "title_de": "Launch & Support",
+      "title_en": "Launch & support",
+      "desc_de": "Wir gehen live und bleiben an Ihrer Seite — für Updates und Optimierung.",
+      "desc_en": "We go live and stay by your side — for updates and optimization."
+    }
+  ],
+
+  "faq": [
+    {
+      "q_de": "Wie lange dauert eine Website?",
+      "q_en": "How long does a website take?",
+      "a_de": "Eine Website-Visitenkarte ist in 2–3 Wochen fertig. Größere Projekte mit Shop oder CMS dauern 4–8 Wochen.",
+      "a_en": "A business card website takes 2–3 weeks. Larger projects with a shop or CMS take 4–8 weeks."
+    },
+    {
+      "q_de": "Was kostet eine Website?",
+      "q_en": "What does a website cost?",
+      "a_de": "Eine Visitenkarte startet bei 800 €. Onlineshop oder komplexere Projekte ab 2.500 €.",
+      "a_en": "A business card site starts at €800. Online shop or more complex projects from €2,500."
+    },
+    {
+      "q_de": "Kann ich die Inhalte selbst ändern?",
+      "q_en": "Can I edit the content myself?",
+      "a_de": "Ja. Jede Website bekommt ein Admin-Panel, mit dem Sie Texte, Bilder und sogar Produkte selbst verwalten können.",
+      "a_en": "Yes. Every website comes with an admin panel where you can manage texts, images and even products yourself."
+    },
+    {
+      "q_de": "Arbeitet ihr auch mit Firmen außerhalb Kassels?",
+      "q_en": "Do you work with companies outside Kassel?",
+      "a_de": "Ja. Wir arbeiten mit Kunden in ganz Deutschland und im deutschsprachigen Raum — alles remote.",
+      "a_en": "Yes. We work with clients all over Germany and the German-speaking world — fully remote."
+    },
+    {
+      "q_de": "Was kostet Werbung auf TikTok oder Instagram?",
+      "q_en": "How much does advertising on TikTok or Instagram cost?",
+      "a_de": "Die Betreuung startet bei 400 €/Monat. Das Werbebudget selbst ist separat und geht direkt an die Plattform.",
+      "a_en": "Management starts at €400/month. The ad budget itself is separate and goes directly to the platform."
+    },
+    {
+      "q_de": "Wie schnell sehe ich Ergebnisse?",
+      "q_en": "How fast will I see results?",
+      "a_de": "Bei Websites — sofort nach dem Launch. Bei Werbung — erste Daten in 1–2 Wochen, stabile Ergebnisse in 1–2 Monaten.",
+      "a_en": "For websites — right after launch. For ads — first data in 1–2 weeks, stable results in 1–2 months."
+    }
+  ]
 }

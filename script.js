@@ -84,7 +84,15 @@ const i18n = {
         contact_eyebrow: "Kontakt", contact_title: "Lassen Sie uns reden",
         contact_sub: "Erzählen Sie uns von Ihrem Projekt — wir melden uns innerhalb von 24 Stunden.",
         contact_phone: "Telefon", contact_email: "E-Mail", contact_address: "Adresse",
-        contact_send: "Nachricht senden"
+        contact_send: "Nachricht senden",
+        nav_process: "Prozess",
+        process_eyebrow: "Prozess",
+        process_title: "Wie wir arbeiten",
+        process_sub: "Vier klare Schritte von der Idee bis zum Ergebnis.",
+        faq_eyebrow: "FAQ",
+        faq_title: "Häufige Fragen",
+        faq_sub: "Alles, was Sie vor dem Start wissen müssen.",
+        cta_btn: "Kostenloses Gespräch →",
     },
     en: {
         nav_services: "Services", nav_gallery: "Work", nav_about: "About",
@@ -102,7 +110,15 @@ const i18n = {
         contact_eyebrow: "Contact", contact_title: "Let's talk",
         contact_sub: "Tell us about your project — we'll get back within 24 hours.",
         contact_phone: "Phone", contact_email: "Email", contact_address: "Address",
-        contact_send: "Send message"
+        contact_send: "Send message",
+        nav_process: "Process",
+        process_eyebrow: "Process",
+        process_title: "How we work",
+        process_sub: "Four clear steps from idea to result.",
+        faq_eyebrow: "FAQ",
+        faq_title: "Frequently asked questions",
+        faq_sub: "Everything you need to know before starting.",
+        cta_btn: "Free consultation →",
     }
 };
 
@@ -179,6 +195,44 @@ function render() {
       </div>
     `).join('') || '<p style="color:var(--text-dim)">Noch keine Referenzen.</p>';
     }
+
+    // Процесс
+    const processGrid = document.getElementById('process-grid');
+    if (processGrid && data.site.process) {
+        processGrid.innerHTML = data.site.process.map((p, i) => `
+      <div class="process-step fade-up delay-${(i % 5) + 1}">
+        <div class="process-step-number">0${i + 1}</div>
+        <h3>${p[`title_${currentLang}`] || ''}</h3>
+        <p>${p[`desc_${currentLang}`] || ''}</p>
+        <div class="process-step-bar"></div>
+      </div>
+    `).join('');
+    }
+
+    // FAQ
+    const faqList = document.getElementById('faq-list');
+    if (faqList && data.site.faq) {
+        faqList.innerHTML = data.site.faq.map((f, i) => `
+      <div class="faq-item fade-up delay-${(i % 5) + 1}">
+        <button class="faq-question">${f[`q_${currentLang}`] || ''}</button>
+        <div class="faq-answer"><p>${f[`a_${currentLang}`] || ''}</p></div>
+      </div>
+    `).join('');
+        // Обработчики аккордеона
+        faqList.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                const isOpen = item.classList.contains('open');
+                faqList.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    }
+
+    // CTA Banner
+    const ctaTitle = document.querySelector('[data-i18n="cta_title"]');
+    const ctaSub = document.querySelector('[data-i18n="cta_sub"]');
+    if (ctaTitle && data.site.cta_title_de) ctaTitle.textContent = data.site[`cta_title_${currentLang}`] || '';
+    if (ctaSub && data.site.cta_sub_de) ctaSub.textContent = data.site[`cta_sub_${currentLang}`] || '';
 
     // После рендера — подписываем новые fade-up элементы на observer
     requestAnimationFrame(observeFadeUps);
