@@ -72,6 +72,7 @@ collections:
     fields:
       - { label: "Icon (Emoji)", name: "icon", widget: "string", default: "✦" }
       - { label: "DE | Titel",        name: "title_de", widget: "string" }
+      - { label: "URL проекта (ссылка)", name: "url", widget: "string", required: false }
       - { label: "EN | Title",         name: "title_en", widget: "string" }
       - { label: "DE | Beschreibung",  name: "desc_de", widget: "text" }
       - { label: "EN | Description",   name: "desc_en", widget: "text" }
