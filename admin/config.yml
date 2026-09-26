@@ -41,6 +41,7 @@ collections:
   - name: "services"
     label: "🛠 Услуги"
     folder: "content/services"
+    identifier_field: "title_de"
     create: true
     slug: "{{slug}}"
     fields:
@@ -57,6 +58,7 @@ collections:
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
+    identifier_field: "caption_de"
     fields:
       - { label: "Изображение", name: "image", widget: "image" }
       - { label: "Подпись (DE)", name: "caption_de", widget: "string", required: false }
@@ -68,6 +70,7 @@ collections:
     folder: "content/testimonials"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"
     fields:
       - { label: "Имя клиента", name: "name", widget: "string" }
       - { label: "Компания (опционально)", name: "company", widget: "string", required: false }
