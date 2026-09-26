@@ -1065,3 +1065,10 @@ body.cursor-hover .custom-cursor{
   .tech-item{font-size:1.1rem;}
   .why{padding:70px 0;}
 }
+
+/* Кастомный курсор — всегда сверху и без transition на transform */
+.custom-cursor,
+.custom-cursor-dot{
+  transition:width 0.2s,height 0.2s,background 0.2s,border-color 0.2s,opacity 0.2s !important;
+  will-change:transform;
+}

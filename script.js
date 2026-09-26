@@ -609,6 +609,65 @@ if (burger && mobileMenu) {
   });
 }
 
+/* ============================================
+   ЭТАП 3 — JS ФИЧИ
+   ============================================ */
+
+/* ===== КАСТОМНЫЙ КУРСОР ===== */
+const cursor = document.getElementById('custom-cursor');
+const cursorDot = document.getElementById('custom-cursor-dot');
+const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+if (cursor && cursorDot && !isTouchDevice) {
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let cursorX = mouseX;
+  let cursorY = mouseY;
+  let dotX = mouseX;
+  let dotY = mouseY;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Плавное движение круга (lerp) и мгновенное — точки
+  function animateCursor() {
+    // Круг — с задержкой (0.15)
+    cursorX += (mouseX - cursorX) * 0.15;
+    cursorY += (mouseY - cursorY) * 0.15;
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+
+    // Точка — почти мгновенно (0.6)
+    dotX += (mouseX - dotX) * 0.6;
+    dotY += (mouseY - dotY) * 0.6;
+    cursorDot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Увеличение круга при наведении на интерактивные элементы
+  const hoverTargets = 'a, button, .btn, .service-card, .gallery-item, .faq-question, .slider-arrow, input, textarea, .why-card, .process-step, .tech-item';
+
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      document.body.classList.add('cursor-hover');
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      document.body.classList.remove('cursor-hover');
+    }
+  });
+
+  // Скрываем стандартный курсор только на десктопе
+  document.body.style.cursor = 'none';
+  document.querySelectorAll('a, button, input, textarea').forEach(el => {
+    el.style.cursor = 'none';
+  });
+}
+
 /* ===== СТАРТ ===== */
 loadData().then(d => {
   data = d;
