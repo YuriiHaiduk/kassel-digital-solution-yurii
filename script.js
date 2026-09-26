@@ -360,58 +360,65 @@ if (statsBlock) {
 /* ============================================
    SLIDER — SCROLL SNAP
    ============================================ */
+/* ============================================
+   SLIDER — SCROLL SNAP (final)
+   ============================================ */
 function initSliders() {
-    document.querySelectorAll('.slider').forEach(slider => {
-        const viewport = slider.querySelector('.slider-viewport');
-        const dotsWrap = slider.querySelector('.slider-dots');
-        const prev = slider.querySelector('.slider-arrow-prev');
-        const next = slider.querySelector('.slider-arrow-next');
-        if (!viewport) return;
+  document.querySelectorAll('.slider').forEach(slider => {
+    const viewport = slider.querySelector('.slider-viewport');
+    const dotsWrap = slider.querySelector('.slider-dots');
+    const prev = slider.querySelector('.slider-arrow-prev');
+    const next = slider.querySelector('.slider-arrow-next');
+    if (!viewport) return;
 
-        // Снимаем инлайновый display:none, если он был выставлен ранее
-        if (prev) prev.style.display = '';
-        if (next) next.style.display = '';
-        if (dotsWrap) dotsWrap.style.display = '';
+    // Убираем возможные инлайновые display:none
+    if (prev) prev.style.display = '';
+    if (next) next.style.display = '';
+    if (dotsWrap) dotsWrap.style.display = '';
 
-        const items = Array.from(viewport.children);
-        if (items.length === 0) return;
+    // ВАЖНО: ищем элементы ВНУТРИ .slider-track
+    const track = viewport.querySelector('.slider-track') || viewport;
+    const items = Array.from(track.children).filter(el => !el.classList.contains('slider-dots'));
+    if (items.length === 0) return;
 
-        // Точки
-        if (dotsWrap) {
-            dotsWrap.innerHTML = '';
-            items.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
-                dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-                dot.addEventListener('click', () => {
-                    const item = items[i];
-                    viewport.scrollTo({ left: item.offsetLeft - viewport.offsetLeft, behavior: 'smooth' });
-                });
-                dotsWrap.appendChild(dot);
-            });
-        }
+    // --- ТОЧКИ ---
+    if (dotsWrap) {
+      dotsWrap.innerHTML = '';
+      items.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+        dot.addEventListener('click', () => {
+          viewport.scrollTo({
+            left: items[i].offsetLeft - track.offsetLeft,
+            behavior: 'smooth'
+          });
+        });
+        dotsWrap.appendChild(dot);
+      });
+    }
 
-        // Стрелки
-        const scrollAmount = () => viewport.clientWidth * 0.9;
-        if (prev) prev.onclick = () => viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-        if (next) next.onclick = () => viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    // --- СТРЕЛКИ ---
+    const scrollAmount = () => viewport.clientWidth * 0.9;
+    if (prev) prev.onclick = () => viewport.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+    if (next) next.onclick = () => viewport.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
 
-        // Подсветка активной точки
-        if (dotsWrap) {
-            viewport.onscroll = () => {
-                const scrollLeft = viewport.scrollLeft;
-                let activeIndex = 0;
-                let minDist = Infinity;
-                items.forEach((item, i) => {
-                    const dist = Math.abs(item.offsetLeft - viewport.offsetLeft - scrollLeft);
-                    if (dist < minDist) { minDist = dist; activeIndex = i; }
-                });
-                dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => {
-                    d.classList.toggle('active', i === activeIndex);
-                });
-            };
-        }
-    });
+    // --- ПОДСВЕТКА АКТИВНОЙ ТОЧКИ ---
+    if (dotsWrap) {
+      viewport.onscroll = () => {
+        const scrollLeft = viewport.scrollLeft;
+        let activeIndex = 0;
+        let minDist = Infinity;
+        items.forEach((item, i) => {
+          const dist = Math.abs(item.offsetLeft - track.offsetLeft - scrollLeft);
+          if (dist < minDist) { minDist = dist; activeIndex = i; }
+        });
+        dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === activeIndex);
+        });
+      };
+    }
+  });
 }
 
 /* ===== LIGHTBOX ===== */
