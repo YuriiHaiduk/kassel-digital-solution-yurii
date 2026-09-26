@@ -201,15 +201,17 @@ function render() {
   const galleryTrack = document.getElementById('gallery-track');
   if (galleryTrack) {
     galleryTrack.innerHTML = (data.gallery || []).map(g => `
-  <div class="gallery-item">
-    <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
-    <div class="gallery-caption">
-      <h4>${g[`caption_${currentLang}`] || ''}</h4>
-      ${g[`desc_${currentLang}`] ? `<p>${g[`desc_${currentLang}`]}</p>` : ''}
-      <span class="gallery-link">Ansehen →</span>
-    </div>
-  </div>
-`).join('') || '...';
+      <div class="gallery-item">
+        <div class="gallery-image">
+          <img src="${g.image}" alt="${g[`caption_${currentLang}`] || ''}" loading="lazy">
+        </div>
+        <div class="gallery-caption">
+          <h4>${g[`caption_${currentLang}`] || ''}</h4>
+          ${g[`desc_${currentLang}`] ? `<p>${g[`desc_${currentLang}`]}</p>` : ''}
+          <span class="gallery-link">Ansehen →</span>
+        </div>
+      </div>
+    `).join('') || '<p style="color:var(--text-dim);padding:40px;">Noch keine Arbeiten.</p>';
   }
 
   // Отзывы
