@@ -3,7 +3,7 @@ backend:
   repo: YuriiHaiduk/kassel-digital-solution-yurii
   branch: main
   base_url: https://kassel-digital-solution-yurii.vercel.app/
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
 
 media_folder: "images"
 public_folder: "/images"
