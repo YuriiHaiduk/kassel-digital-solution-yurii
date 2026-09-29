@@ -809,7 +809,7 @@ function initParallax() {
       const rect = el.getBoundingClientRect();
       const progress = (vh - rect.top) / (vh + rect.height);
       if (progress > -0.3 && progress < 1.3) {
-        const offset = (progress - 0.5) * 40;
+        const offset = (progress - 0.5) * 100;
         el.style.transform = `translateY(${offset}px)`;
       }
     });
@@ -819,7 +819,7 @@ function initParallax() {
       const rect = el.getBoundingClientRect();
       const progress = (vh - rect.top) / (vh + rect.height);
       if (progress > -0.3 && progress < 1.3) {
-        const offset = (progress - 0.5) * 20;
+        const offset = (progress - 0.5) * 50;
         el.style.transform = `translateY(${offset}px)`;
       }
     });
@@ -829,7 +829,7 @@ function initParallax() {
       const rect = contact.getBoundingClientRect();
       const progress = (vh - rect.top) / (vh + rect.height);
       if (progress > -0.3 && progress < 1.3) {
-        const offset = (progress - 0.5) * 60;
+        const offset = (progress - 0.5) * 150;
         contact.style.setProperty('--parallax-offset', offset + 'px');
       }
     }

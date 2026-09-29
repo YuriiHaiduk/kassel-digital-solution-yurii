@@ -504,6 +504,7 @@ body.modal-open{overflow:hidden;}
    ============================================ */
 
 /* ===== Декоративные элементы hero ===== */
+/* ===== Декоративные элементы hero ===== */
 .hero-decor{
   position:absolute;
   inset:0;
@@ -518,50 +519,61 @@ body.modal-open{overflow:hidden;}
   will-change:transform;
 }
 
-/* Круг 1 — маленькая точка */
+/* Круг 1 — светящаяся точка */
 .hero-decor-item.dot-1{
-  width:8px;height:8px;
+  width:10px;height:10px;
   background:var(--violet);
   top:20%;left:15%;
-  opacity:0.7;
-  box-shadow:0 0 20px rgba(124,58,237,0.8);
+  box-shadow:0 0 24px rgba(124,58,237,1);
 }
-/* Круг 2 — кольцо */
+/* Круг 2 — большое кольцо */
 .hero-decor-item.ring-1{
-  width:120px;height:120px;
-  border:1px solid rgba(124,58,237,0.3);
-  top:65%;left:8%;
+  width:180px;height:180px;
+  border:1.5px solid rgba(124,58,237,0.4);
+  top:60%;left:5%;
   background:transparent;
 }
-/* Круг 3 — градиентное пятно */
+/* Круг 3 — большое градиентное пятно */
 .hero-decor-item.blob-1{
-  width:280px;height:280px;
-  background:radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 70%);
-  filter:blur(30px);
-  top:10%;right:5%;
+  width:380px;height:380px;
+  background:radial-gradient(circle,rgba(59,130,246,0.28) 0%,transparent 70%);
+  filter:blur(40px);
+  top:5%;right:-5%;
 }
-/* Круг 4 — маленькая точка справа */
+/* Круг 4 — маленькая синяя точка */
 .hero-decor-item.dot-2{
-  width:6px;height:6px;
+  width:8px;height:8px;
   background:var(--blue);
   top:75%;right:15%;
-  opacity:0.8;
-  box-shadow:0 0 20px rgba(59,130,246,0.8);
+  box-shadow:0 0 24px rgba(59,130,246,1);
 }
-/* Круг 5 — маленькое кольцо */
+/* Круг 5 — среднее кольцо */
 .hero-decor-item.ring-2{
-  width:60px;height:60px;
-  border:1px solid rgba(59,130,246,0.35);
-  top:30%;right:30%;
+  width:90px;height:90px;
+  border:1.5px solid rgba(59,130,246,0.45);
+  top:25%;right:25%;
+}
+/* Круг 6 — новая точка внизу */
+.hero-decor-item.dot-3{
+  width:6px;height:6px;
+  background:var(--violet);
+  bottom:15%;left:40%;
+  box-shadow:0 0 20px rgba(124,58,237,1);
+}
+/* Круг 7 — новое кольцо */
+.hero-decor-item.ring-3{
+  width:140px;height:140px;
+  border:1px solid rgba(124,58,237,0.25);
+  bottom:-5%;right:35%;
 }
 
-/* На мобиле скрываем большинство декораций */
 @media (max-width:900px){
   .hero-decor-item.blob-1,
   .hero-decor-item.ring-2,
-  .hero-decor-item.dot-2{display:none;}
+  .hero-decor-item.ring-3,
+  .hero-decor-item.dot-2,
+  .hero-decor-item.dot-3{display:none;}
 }
-
 /* ===== Параллакс для Process (номера шагов) ===== */
 .process-step-number{
   will-change:transform;
