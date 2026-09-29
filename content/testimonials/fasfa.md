@@ -1,6 +1,6 @@
 ---
-name: fasfa
-company: fasf
-text_de: fasf
-text_en: fasfa
+name: Alex
+company: OKA
+text_de: Super Super Super Super Super Super Super Super Super Super Super Super
+text_en: Super Super Super Super Super Super Super Super Super Super Super Super
 ---
