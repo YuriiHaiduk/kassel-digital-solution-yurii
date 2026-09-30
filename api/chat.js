@@ -1,18 +1,19 @@
 // api/chat.js
-const GEMINI_MODEL = 'gemini-3.8-flash';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const MAX_RETRIES = 3;
-const RETRY_DELAYS = [1000, 2000, 4000]; // 1с, 2с, 4с
+const RETRY_DELAYS = [1000, 2000, 4000];
 
-async function callGemini(apiKey, systemPrompt, contents) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+async function callGroq(apiKey, systemPrompt, messages) {
+    const url = 'https://api.groq.com/openai/v1/chat/completions';
 
     const body = {
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents,
-        generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500
-        }
+        model: GROQ_MODEL,
+        messages: [
+            { role: 'system', content: systemPrompt },
+            ...messages
+        ],
+        temperature: 0.7,
+        max_tokens: 500
     };
 
     let lastError = null;
@@ -21,43 +22,40 @@ async function callGemini(apiKey, systemPrompt, contents) {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
                 body: JSON.stringify(body)
             });
 
-            // Успех
             if (response.ok) {
                 const data = await response.json();
                 return { ok: true, data };
             }
 
-            // Получаем текст ошибки
             const errorData = await response.json().catch(() => ({}));
             const status = response.status;
             const errMsg = errorData.error?.message || `HTTP ${status}`;
 
             lastError = { status, message: errMsg };
 
-            // Retry только на 503, 502, 504, 429 (временные ошибки)
+            // Retry только на 429, 502, 503, 504
             const retryable = [429, 502, 503, 504].includes(status);
 
             if (!retryable) {
-                // 400, 401, 403, 404 — постоянные ошибки, retry бесполезен
                 return { ok: false, status, error: errMsg };
             }
 
-            // Если это была последняя попытка — выходим
             if (attempt === MAX_RETRIES) {
                 return { ok: false, status, error: errMsg, exhausted: true };
             }
 
-            // Ждём перед следующей попыткой
             const delay = RETRY_DELAYS[attempt] || 4000;
             console.log(`Attempt ${attempt + 1} failed (${status}): ${errMsg}. Retrying in ${delay}ms...`);
             await new Promise(r => setTimeout(r, delay));
 
         } catch (err) {
-            // Сетевая ошибка — тоже retryable
             lastError = { status: 0, message: err.message };
             if (attempt === MAX_RETRIES) {
                 return { ok: false, status: 0, error: err.message, exhausted: true };
@@ -88,7 +86,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Message is required' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
         return res.status(500).json({ error: 'API key not configured' });
     }
@@ -118,23 +116,22 @@ export default async function handler(req, res) {
 - Не выдумывай цены и сроки, которых нет выше
 - Не говори, что ты AI, если не спросят напрямую`;
 
-    const contents = [];
+    const messages = [];
     if (Array.isArray(history)) {
         for (const item of history.slice(-10)) {
-            if (item.role === 'user' || item.role === 'model') {
-                contents.push({
-                    role: item.role,
-                    parts: [{ text: String(item.text || '') }]
+            if (item.role === 'user' || item.role === 'assistant') {
+                messages.push({
+                    role: item.role === 'model' ? 'assistant' : 'user',
+                    content: String(item.text || '')
                 });
             }
         }
     }
-    contents.push({ role: 'user', parts: [{ text: message }] });
+    messages.push({ role: 'user', content: message });
 
-    const result = await callGemini(apiKey, systemPrompt, contents);
+    const result = await callGroq(apiKey, systemPrompt, messages);
 
     if (!result.ok) {
-        // Если все retry исчерпаны — отдаём "мягкую" ошибку
         if (result.exhausted) {
             return res.status(200).json({
                 reply: 'Извините, сейчас у меня технический перерыв. Пожалуйста, напишите нам на email или попробуйте через минуту.',
@@ -144,8 +141,7 @@ export default async function handler(req, res) {
         return res.status(result.status || 500).json({ error: result.error });
     }
 
-    const data = result.data;
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
+    const reply = result.data.choices?.[0]?.message?.content
         || 'Извините, не могу сейчас ответить. Свяжитесь с нами по email.';
 
     return res.status(200).json({ reply });
