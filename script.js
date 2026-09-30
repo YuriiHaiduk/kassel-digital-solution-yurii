@@ -885,6 +885,97 @@ function applyContactParallax() {
   `;
   document.head.appendChild(style);
 }
+
+
+/* === Chat Widget === */
+(function initChatWidget() {
+  const widget = document.getElementById('chat-widget');
+  const toggle = document.getElementById('chat-toggle');
+  const closeBtn = document.getElementById('chat-close');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+
+  if (!widget || !toggle || !form) return;
+
+  // История для контекста (последние 10 сообщений)
+  const history = [];
+  let isLoading = false;
+
+  function openChat() {
+    widget.classList.add('is-open');
+    input.focus();
+  }
+
+  function closeChat() {
+    widget.classList.remove('is-open');
+  }
+
+  toggle.addEventListener('click', () => {
+    widget.classList.contains('is-open') ? closeChat() : openChat();
+  });
+
+  closeBtn.addEventListener('click', closeChat);
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `chat-message chat-message--${role}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  function addTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-message chat-message--typing';
+    div.textContent = 'tippt...';
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text || isLoading) return;
+
+    isLoading = true;
+    input.value = '';
+    input.disabled = true;
+
+    addMessage(text, 'user');
+    history.push({ role: 'user', text });
+
+    const typing = addTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          history: history.slice(-10)
+        })
+      });
+
+      const data = await res.json();
+      typing.remove();
+
+      const reply = data.reply || data.error || 'Fehler. Bitte später versuchen.';
+      addMessage(reply, 'bot');
+      history.push({ role: 'model', text: reply });
+
+    } catch (err) {
+      typing.remove();
+      addMessage('Verbindungsfehler. Bitte später versuchen.', 'bot');
+    } finally {
+      isLoading = false;
+      input.disabled = false;
+      input.focus();
+    }
+  });
+})();
 /* ===== СТАРТ ===== */
 loadData().then(d => {
   data = d;
